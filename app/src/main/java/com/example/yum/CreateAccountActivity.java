@@ -16,14 +16,30 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 public class CreateAccountActivity extends AppCompatActivity {
 
     private static final String TAG = "CreateAccountActivity";
     private Button btnCreate;
     private EditText accEmail;
     private EditText accPassword;
+    private EditText accConfirmPassword;
     private FirebaseAuth mAuth;
+
+    public static boolean isValid(String email)
+    {
+        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."+
+                "[a-zA-Z0-9_+&*-]+)*@" +
+                "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
+                "A-Z]{2,7}$";
+
+        Pattern pat = Pattern.compile(emailRegex);
+        if (email == null)
+            return false;
+        return pat.matcher(email).matches();
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,19 +49,23 @@ public class CreateAccountActivity extends AppCompatActivity {
         btnCreate = findViewById(R.id.btnCreate);
         accEmail = findViewById(R.id.accEmail);
         accPassword = findViewById(R.id.accPassword);
+        accConfirmPassword = findViewById(R.id.accConfirmPassword);
+
 
         mAuth = FirebaseAuth.getInstance();
 
 
 
         // TODO implement username/pw/email form
-        final String accountEmail = accEmail.getText().toString();
-        final String accountPassword = accPassword.getText().toString();
 
         // TODO redirect to login screen
         btnCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                String accountEmail = accEmail.getText().toString();
+                String accountPassword = accPassword.getText().toString();
+                String accountConfirmPassword = accConfirmPassword.getText().toString();
 
                 if (accountEmail.isEmpty() || accountPassword.isEmpty()) {
                     Toast.makeText(CreateAccountActivity.this, "Username and Password cannot be empty",
@@ -53,8 +73,31 @@ public class CreateAccountActivity extends AppCompatActivity {
                     return;
                 }
 
+                if (accountPassword.length() < 6) {
+                    Toast.makeText(CreateAccountActivity.this, "Password must be at least 6 characters",
+                            Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (isValid(accountEmail) == false) {
+                    Toast.makeText(CreateAccountActivity.this, "Must enter a valid email address",
+                            Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (accountPassword.compareTo(accountConfirmPassword) != 0) {
+                    Toast.makeText(CreateAccountActivity.this, "Please Confirm Password",
+                            Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 createAccount(accountEmail, accountPassword);
 
+
+                // redirects user back to login
+                final Intent intent = new Intent(CreateAccountActivity.this,
+                        LoginActivity.class);
+                startActivity(intent);
                 finish();
             }
         });
@@ -65,18 +108,17 @@ public class CreateAccountActivity extends AppCompatActivity {
 
         // [START create_user_with_email]
         mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "createUserWithEmail:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
+                            //FirebaseUser user = mAuth.getCurrentUser();
 
-                            final Intent intent = new Intent(CreateAccountActivity.this,
-                                    LoginActivity.class);
-                            startActivity(intent);
-                            finish();
+                            Toast.makeText(CreateAccountActivity.this, "User Registered Successfully.",
+                                    Toast.LENGTH_SHORT).show();
+
 
                         } else {
                             // If sign in fails, display a message to the user.
