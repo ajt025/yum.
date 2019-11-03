@@ -97,7 +97,12 @@ public class CreateAccountActivity extends AppCompatActivity {
                 // redirects user back to login
                 final Intent intent = new Intent(CreateAccountActivity.this,
                         LoginActivity.class);
+
+                Toast.makeText(CreateAccountActivity.this, "Account Created Successfully",
+                        Toast.LENGTH_SHORT).show();
+
                 startActivity(intent);
+
                 finish();
             }
         });
