@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "629851233653",
+    "firebase_url": "https://cse110-yum.firebaseio.com",
+    "project_id": "cse110-yum",
+    "storage_bucket": "cse110-yum.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:629851233653:android:c1eb7417748893207ec73c",
+        "android_client_info": {
+          "package_name": "com.example.yum"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "629851233653-5nig1pb8jlo2k4brhh0palhg38kvkhvb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCfn1OoZWzoZccLqZVyxYXrlGPE3SPqgqg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "629851233653-5nig1pb8jlo2k4brhh0palhg38kvkhvb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
