@@ -3,4 +3,7 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+    <color name="vanilla">#F9EAAC</color>
+    <color name="outerSpace">#494949</color>
+    <color name="moccasin">#F9EBE0</color>
 </resources>
