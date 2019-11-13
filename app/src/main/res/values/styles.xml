@@ -7,16 +7,37 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
+
+    <!-- Overrides Base app theme to remove action bar and set default font. -->
     <style name="AppTheme.NoActionBar" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:windowFullscreen">true</item>
-        <item name="android:fontFamily">@font/open_sans_light</item>
+        <item name="android:fontFamily">@font/playfair_display</item>
+        <item name="android:textStyle">bold</item>
     </style>
+
+<!--  Background style  -->
+    <style name="bgStyle">
+        <item name="android:background">@color/offwhite</item>
+    </style>
+
+<!--  Generic icon style  -->
+    <style name="iconStyle">
+        <item name="android:tint">@color/outerSpace</item>
+    </style>
+
+<!--  Generic button style  -->
     <style name="buttonStyle">
         <item name="android:fontFamily">@font/playfair_display</item>
-        <item name="android:background">@color/outerSpace</item>
-        <item name="android:textColor">@color/moccasin</item>
+        <item name="android:background">@drawable/bg_button</item>
+        <item name="android:textColor">@color/bisque</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+<!--  Generic text style  -->
+    <style name="textStyle">
+        <item name="android:fontFamily">@font/playfair_display</item>
     </style>
 
 </resources>

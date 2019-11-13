@@ -3,7 +3,11 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+<!--  Custom Colors  -->
     <color name="vanilla">#F9EAAC</color>
     <color name="outerSpace">#494949</color>
     <color name="moccasin">#F9EBE0</color>
+    <color name="queenBlue">#3E6990</color>
+    <color name="bisque">#FFEAC6</color>
+    <color name="offwhite">#FFFFF0</color>
 </resources>

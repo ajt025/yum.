@@ -2,12 +2,14 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    style="@style/bgStyle"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".LoginActivity">
 
     <EditText
         android:id="@+id/etPassword"
+        style="@style/textStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -21,11 +23,12 @@
 
     <EditText
         android:id="@+id/etEmail"
+        style="@style/textStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="32dp"
-        android:hint="Email"
+        android:hint="E-mail"
         android:inputType="textEmailAddress"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="@+id/ivLogo"
@@ -38,35 +41,25 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
+        android:background="@drawable/bg_button"
         android:text="@string/common_signin_button_text"
         app:layout_constraintEnd_toEndOf="@+id/ivLogo"
         app:layout_constraintStart_toStartOf="@+id/ivLogo"
+        app:layout_constraintTop_toBottomOf="@+id/tvRecover" />
+
+    <TextView
+        android:id="@+id/tvRecover"
+        style="@style/textStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="center_horizontal"
+        android:text="@string/forgotPW"
+        android:textColor="#A9A9A9"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="@+id/ivLogo"
+        app:layout_constraintStart_toStartOf="@+id/ivLogo"
         app:layout_constraintTop_toBottomOf="@+id/etPassword" />
-
-    <Button
-        android:id="@+id/btnRecover"
-        style="@style/buttonStyle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:text="forgot password?"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/btnCreateAccount"
-        app:layout_constraintStart_toStartOf="@+id/btnCreateAccount" />
-
-    <Button
-        android:id="@+id/btnCreateAccount"
-        style="@style/buttonStyle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginBottom="8dp"
-        android:padding="16dp"
-        android:text="Create Account"
-        app:layout_constraintBottom_toTopOf="@+id/btnRecover"
-        app:layout_constraintEnd_toEndOf="@+id/btnLogin"
-        app:layout_constraintStart_toStartOf="@+id/btnLogin" />
 
     <ImageView
         android:id="@+id/ivLogo"
@@ -80,6 +73,7 @@
 
     <ImageView
         android:id="@+id/ivAccount"
+        style="@style/iconStyle"
         android:layout_width="36dp"
         android:layout_height="36dp"
         app:layout_constraintBottom_toBottomOf="@+id/etEmail"
@@ -89,11 +83,46 @@
 
     <ImageView
         android:id="@+id/ivPassword"
+        style="@style/iconStyle"
         android:layout_width="36dp"
         android:layout_height="36dp"
         app:layout_constraintBottom_toBottomOf="@+id/etPassword"
         app:layout_constraintStart_toStartOf="@+id/ivAccount"
         app:layout_constraintTop_toTopOf="@+id/etPassword"
         app:srcCompat="@drawable/ic_onepassword" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/ivLogo"
+        app:layout_constraintStart_toStartOf="@+id/ivLogo">
+
+        <TextView
+            android:id="@+id/textView"
+            style="@style/textStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="@string/createAcc1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/ivLogo" />
+
+        <TextView
+            android:id="@+id/tvCreateAccount"
+            style="@style/textStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="@string/createAcc2"
+            android:textColor="@color/queenBlue"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/textView" />
+
+
+    </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
