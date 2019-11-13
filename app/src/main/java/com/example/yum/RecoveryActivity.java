@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -25,11 +26,16 @@ public class RecoveryActivity extends AppCompatActivity {
 
         btnRecover = findViewById(R.id.btnRequestRecover);
         recEmail = findViewById(R.id.recEmail);
-        // TODO implement recovery form
 
         btnRecover.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                if (recEmail.getText().toString().equals("")) {
+                    Toast.makeText(getApplicationContext(), "Please enter a valid email address.",
+                            Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
                 FirebaseAuth.getInstance().sendPasswordResetEmail(recEmail.getText().toString())
                         .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -37,6 +43,12 @@ public class RecoveryActivity extends AppCompatActivity {
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()) {
                                     Log.d("Email", "Email sent.");
+                                    Toast.makeText(getApplicationContext(), "Recovery email sent.",
+                                            Toast.LENGTH_SHORT).show();
+                                    finish();
+                                } else {
+                                    Toast.makeText(getApplicationContext(), "Email is not registered.",
+                                            Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });
