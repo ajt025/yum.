@@ -30,6 +30,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Write Review"
-        tools:layout_editor_absoluteX="278dp"
-        tools:layout_editor_absoluteY="58dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btnFoodProfile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="food profile example"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

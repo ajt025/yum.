@@ -11,14 +11,14 @@ import android.widget.Button;
 import androidx.fragment.app.Fragment;
 
 import com.example.yum.ComposeActivity;
-import com.example.yum.HomeActivity;
-import com.example.yum.LoginActivity;
+import com.example.yum.FoodProfileActivity;
 import com.example.yum.R;
 
 public class ExploreFragment extends Fragment {
 
     private Context context;
     private Button btnCompose;
+    private Button btnFoodProfile;
 
     // The onCreateView method is called when Fragment should create its View object hierarchy.
     @Override
@@ -33,11 +33,20 @@ public class ExploreFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         btnCompose = view.findViewById(R.id.btnCompose);
+        btnFoodProfile = view.findViewById(R.id.btnFoodProfile);
 
         btnCompose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 final Intent intent = new Intent(context, ComposeActivity.class);
+                context.startActivity(intent);
+            }
+        });
+
+        btnFoodProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final Intent intent = new Intent(context, FoodProfileActivity.class);
                 context.startActivity(intent);
             }
         });
