@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">Yum</string>
+    <string name="forgotPW"><u>Forgot password?</u></string>
+    <string name="createAcc1">Don\'t have an account?</string>
+    <string name="createAcc2">Sign up!</string>
 </resources>
