@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -22,8 +23,8 @@ public class LoginActivity extends AppCompatActivity {
 
     private static final String TAG = "LoginActivity";
     private Button btnLogin;
-    private Button btnCreateAccount;
-    private Button btnRecoverPassword;
+    private TextView tvCreateAccount;
+    private TextView tvRecoverPassword;
     private EditText etEmail;
     private EditText etPassword;
 
@@ -52,27 +53,15 @@ public class LoginActivity extends AppCompatActivity {
         context = getApplicationContext();
 
         btnLogin = findViewById(R.id.btnLogin);
-        btnCreateAccount = findViewById(R.id.btnCreateAccount);
-        btnRecoverPassword = findViewById(R.id.btnRecover);
+        tvCreateAccount = findViewById(R.id.tvCreateAccount);
+        tvRecoverPassword = findViewById(R.id.tvRecover);
         etEmail = findViewById(R.id.etEmail);
         etPassword = findViewById(R.id.etPassword);
-
-        // TODO implement login form and buttons, pw recovery
-
-
 
 
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
 
-
-        btnRecoverPassword.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                final Intent intent = new Intent(LoginActivity.this, RecoveryActivity.class);
-                startActivity(intent);
-            }
-        });
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -87,19 +76,13 @@ public class LoginActivity extends AppCompatActivity {
                     return;
                 }
 
-                //TODO firebase auth
+                // Successful login sends to Homepage
                 login(email, password);
-
-
-                // TODO successful login, send to HomeActivity
-//                final Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-//                startActivity(intent);
-//                finish();
             }
         });
 
 
-        btnCreateAccount.setOnClickListener(new View.OnClickListener() {
+        tvCreateAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 final Intent intent = new Intent(LoginActivity.this, CreateAccountActivity.class);
@@ -107,7 +90,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        btnRecoverPassword.setOnClickListener(new View.OnClickListener() {
+        tvRecoverPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 final Intent intent = new Intent(LoginActivity.this, RecoveryActivity.class);
