@@ -51,10 +51,7 @@ public class CreateAccountActivity extends AppCompatActivity {
         accPassword = findViewById(R.id.accPassword);
         accConfirmPassword = findViewById(R.id.accConfirmPassword);
 
-
         mAuth = FirebaseAuth.getInstance();
-
-
 
         // TODO implement username/pw/email form
 
