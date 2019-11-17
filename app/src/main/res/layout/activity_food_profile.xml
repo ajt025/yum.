@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    style="@style/bgStyle"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".FoodProfileActivity">
@@ -16,42 +17,24 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@android:color/background_dark" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/clFoodGroup"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivPic">
-
-        <Button
-            android:id="@+id/btnFavorite"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Favorite"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <Button
-            android:id="@+id/btnWishlist"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="64dp"
-            android:layout_marginLeft="64dp"
-            android:text="Wishlist"
-            app:layout_constraintStart_toEndOf="@+id/btnFavorite"
-            app:layout_constraintTop_toTopOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvReviews"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="32dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/clFoodGroup" />
+        app:layout_constraintTop_toBottomOf="@+id/btnWishlist" />
+
+    <Button
+        android:id="@+id/btnWishlist"
+        style="@style/buttonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="Wishlist"
+        app:layout_constraintEnd_toEndOf="@+id/ivPic"
+        app:layout_constraintStart_toStartOf="@+id/ivPic"
+        app:layout_constraintTop_toBottomOf="@+id/ivPic" />
 </androidx.constraintlayout.widget.ConstraintLayout>

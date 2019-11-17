@@ -33,6 +33,7 @@
         <item name="android:background">@drawable/bg_button</item>
         <item name="android:textColor">@color/bisque</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:padding">4dp</item>
     </style>
 
 <!--  Generic text style  -->
