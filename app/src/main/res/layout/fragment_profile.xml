@@ -96,22 +96,16 @@
                 android:text="Dietary Preference" />
 
             <Switch
-                android:id="@+id/switch1"
+                android:id="@+id/switchVegetarian"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Vegetarian" />
 
             <Switch
-                android:id="@+id/switch2"
+                android:id="@+id/switchVegan"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Vegan" />
-
-            <Switch
-                android:id="@+id/switch3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Lactose Free" />
 
         </LinearLayout>
 
@@ -137,6 +131,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="0" />
+
+            <Switch
+                android:id="@+id/switchLocation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Location Services" />
         </LinearLayout>
 
         <Button

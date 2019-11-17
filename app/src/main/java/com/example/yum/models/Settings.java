@@ -1,14 +1,12 @@
 package com.example.yum.models;
 
 
-import com.example.yum.SettingActivity;
-
-public class Settings_Database  {
+public class Settings {
     public boolean vegetarian;
     public boolean vegan;
     public boolean location;
 
-    public Settings_Database () {
+    public Settings() {
         vegan = false;
         vegetarian = false;
         location = false;
