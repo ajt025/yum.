@@ -9,8 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.yum.fragments.ExploreFragment;
-import com.example.yum.models.Food_Review_Database;
+import com.example.yum.models.Review;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -22,7 +21,7 @@ public class ComposeActivity extends AppCompatActivity {
     private EditText cmpRating;
     private EditText cmpDescription;
     private DatabaseReference myDatabase;
-    Food_Review_Database foodObject;
+    Review review;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,17 +47,17 @@ public class ComposeActivity extends AppCompatActivity {
                 String id = myDatabase.push().getKey();
 
                 //constructing data object here
-                foodObject = new Food_Review_Database();
+                review = new Review();
 
-                foodObject.setReview_title(title);
-                foodObject.setReview_body(description);
-                foodObject.setRating(rating);
-                foodObject.setReview_id(id);
-                foodObject.setUpvote_count(0);
-                foodObject.setDownvote_count(0);
+                review.setReviewTitle(title);
+                review.setReviewBody(description);
+                review.setRating(rating);
+                review.setReviewId(id);
+                review.setUpvoteCount(0);
+                review.setDownvoteCount(0);
 
                 // send it to firebase
-                myDatabase.push().setValue(foodObject);
+                myDatabase.push().setValue(review);
 
                 Toast.makeText(ComposeActivity.this, "Review Submitted", Toast.LENGTH_LONG).show();
 

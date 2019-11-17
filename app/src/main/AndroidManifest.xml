@@ -14,7 +14,6 @@
         <activity android:name=".FoodProfileActivity" />
         <activity android:name=".ComposeActivity" />
         <activity android:name=".HomeActivity" />
-        <activity android:name=".SettingActivity" />
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

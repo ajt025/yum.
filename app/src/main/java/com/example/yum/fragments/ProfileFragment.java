@@ -7,21 +7,28 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 
 import androidx.fragment.app.Fragment;
 
-import com.example.yum.HomeActivity;
 import com.example.yum.LoginActivity;
 import com.example.yum.R;
-import com.example.yum.SettingActivity;
+import com.example.yum.models.Settings;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class ProfileFragment extends Fragment {
 
     private Button btnSignOut;
     private Context context;
-    private Button btnSetting;
+    private Switch switchVegetarian;
+    private Switch switchVegan;
+    private Switch switchLocation;
 
+    private DatabaseReference myDatabase;
+    private Settings settings;
 
     // The onCreateView method is called when Fragment should create its View object hierarchy.
     @Override
@@ -39,7 +46,6 @@ public class ProfileFragment extends Fragment {
 
 
         btnSignOut = view.findViewById(R.id.btnSignOut);
-        btnSetting = view.findViewById(R.id.btnSettings);
 
         btnSignOut.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,13 +58,57 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        btnSetting.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        switchVegetarian = view.findViewById(R.id.switchVegetarian);
+        switchVegan = view.findViewById(R.id.switchVegan);
+        switchLocation = view.findViewById(R.id.switchLocation);
 
-                Intent intent = new Intent(context, SettingActivity.class);
-                startActivity(intent);
+        myDatabase = FirebaseDatabase.getInstance().getReference().child("User Settings");
+        final String currUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        settings = new Settings();
 
+        // TODO implement state persistence --> upon profile screen load, check if switches are
+        // already set and reflect accordingly
+
+        switchVegetarian.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    settings.setVegetarian(true);
+                    myDatabase.child(currUser).setValue(settings);
+
+                }
+
+                else if(!isChecked) {
+                    settings.setVegetarian(false);
+                    myDatabase.child(currUser).setValue(settings);
+                }
+            }
+        });
+
+        switchVegan.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    settings.setVegan(true);
+                    myDatabase.child(currUser).setValue(settings);
+
+                } else if (!isChecked) {
+                    settings.setVegan(false);
+                    myDatabase.child(currUser).setValue(settings);
+
+                }
+            }
+        });
+
+        switchLocation.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    settings.setLocation(true);
+                    myDatabase.child(currUser).setValue(settings);
+
+                } else if (!isChecked){
+                    settings.setLocation(false);
+                    myDatabase.child(currUser).setValue(settings);
+
+                }
             }
         });
     }
