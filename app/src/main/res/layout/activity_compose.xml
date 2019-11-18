@@ -2,74 +2,104 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    style="@style/bgStyle"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:alwaysDrawnWithCache="false"
     tools:context=".ComposeActivity">
 
-    <TextView
-        android:id="@+id/textView6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Compose"
-        android:textSize="36sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.552"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.076" />
-
     <Button
         android:id="@+id/btnSubmit"
+        style="@style/buttonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:padding="10dp"
         android:text="Submit"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cmpDescription" />
 
     <EditText
         android:id="@+id/cmpTitle"
-        android:layout_width="wrap_content"
+        style="@style/textStyle"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="37dp"
-        android:layout_marginLeft="37dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/border_round"
         android:ems="10"
         android:hint="Title"
         android:inputType="textShortMessage"
         android:selectAllOnFocus="false"
         android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+        app:layout_constraintTop_toBottomOf="@+id/divider8" />
 
-    <EditText
-        android:id="@+id/cmpRating"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="35dp"
-        android:layout_marginLeft="35dp"
-        android:layout_marginTop="37dp"
-        android:ems="10"
-        android:hint="Rating"
-        android:inputType="numberDecimal"
-        app:layout_constraintStart_toStartOf="parent"
+    <SeekBar
+        android:id="@+id/sbRating"
+        style="@style/Widget.AppCompat.SeekBar.Discrete"
+        android:layout_width="0dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/border_round"
+        android:inputType="none"
+        android:max="4"
+        android:progress="3"
+        android:progressTint="@color/queenBlue"
+        app:layout_constraintEnd_toEndOf="@+id/cmpTitle"
+        app:layout_constraintStart_toStartOf="@+id/cmpTitle"
         app:layout_constraintTop_toBottomOf="@+id/cmpTitle" />
 
     <EditText
         android:id="@+id/cmpDescription"
-        android:layout_width="341dp"
-        android:layout_height="150dp"
-        android:layout_marginStart="33dp"
-        android:layout_marginLeft="33dp"
-        android:layout_marginTop="28dp"
-        android:layout_marginEnd="37dp"
-        android:layout_marginRight="37dp"
+        style="@style/textStyle"
+        android:layout_width="0dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/border_round"
         android:ems="10"
+        android:gravity="bottom"
         android:hint="Description"
-        android:inputType="textLongMessage"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:inputType="textLongMessage|textMultiLine"
+        app:layout_constraintEnd_toEndOf="@+id/cmpTitle"
         app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/cmpTitle"
+        app:layout_constraintTop_toBottomOf="@+id/tvRating" />
+
+    <TextView
+        android:id="@+id/tvRating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Rating"
+        android:textColor="@color/outerSpace"
+        app:layout_constraintEnd_toEndOf="@+id/sbRating"
+        app:layout_constraintStart_toStartOf="@+id/sbRating"
+        app:layout_constraintTop_toBottomOf="@+id/sbRating" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="center_horizontal"
+        android:padding="10dp"
+        android:text="Got something to say?"
+        android:textSize="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cmpRating" />
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/divider8"
+        android:layout_width="0dp"
+        android:layout_height="2dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/outerSpace"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView8" />
 </androidx.constraintlayout.widget.ConstraintLayout>
