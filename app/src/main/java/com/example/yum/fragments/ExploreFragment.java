@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -27,7 +26,6 @@ public class ExploreFragment extends Fragment {
 
     private Context context;
     private FloatingActionButton btnCompose;
-    private Button btnFoodProfile;
     private TextView tvFilters;
     private ConstraintLayout clOptions;
 
@@ -60,14 +58,6 @@ public class ExploreFragment extends Fragment {
                 context.startActivity(intent);
             }
         });
-
-//        btnFoodProfile.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                final Intent intent = new Intent(context, FoodProfileActivity.class);
-//                context.startActivity(intent);
-//            }
-//        });
 
         // expandable search
         tvFilters.setOnClickListener(new View.OnClickListener() {
