@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.SeekBar;
 import android.widget.Toast;
 
 import com.example.yum.models.Review;
@@ -18,7 +19,7 @@ public class ComposeActivity extends AppCompatActivity {
 
     private Button btnSubmit;
     private EditText cmpTitle;
-    private EditText cmpRating;
+    private SeekBar sbRating;
     private EditText cmpDescription;
     private DatabaseReference myDatabase;
     Review review;
@@ -30,7 +31,7 @@ public class ComposeActivity extends AppCompatActivity {
 
         btnSubmit = findViewById(R.id.btnSubmit);
         cmpTitle = findViewById(R.id.cmpTitle);
-        cmpRating = findViewById(R.id.cmpRating);
+        sbRating = findViewById(R.id.sbRating);
         cmpDescription = findViewById(R.id.cmpDescription);
 
         myDatabase = FirebaseDatabase.getInstance().getReference().child("Reviews");
@@ -42,7 +43,6 @@ public class ComposeActivity extends AppCompatActivity {
 
 
                 String title = cmpTitle.getText().toString();
-                int rating = Integer.parseInt(cmpRating.getText().toString().trim());
                 String description = cmpDescription.getText().toString();
                 String id = myDatabase.push().getKey();
 
@@ -51,7 +51,7 @@ public class ComposeActivity extends AppCompatActivity {
 
                 review.setReviewTitle(title);
                 review.setReviewBody(description);
-                review.setRating(rating);
+                review.setRating(sbRating.getProgress() + 1);
                 review.setReviewId(id);
                 review.setUpvoteCount(0);
                 review.setDownvoteCount(0);
