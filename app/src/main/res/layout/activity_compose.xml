@@ -8,30 +8,65 @@
     android:alwaysDrawnWithCache="false"
     tools:context=".ComposeActivity">
 
-    <TextView
-        android:id="@+id/textView8"
-        android:layout_width="0dp"
+    <Button
+        android:id="@+id/btnSubmit"
+        style="@style/buttonStyle"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:gravity="center_horizontal"
+        android:layout_marginTop="32dp"
         android:padding="10dp"
-        android:text="Got something to say?"
-        android:textSize="20dp"
+        android:text="Submit"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/cmpDescription" />
 
     <EditText
-        android:id="@+id/etFoodName"
+        android:id="@+id/cmpTitle"
         style="@style/textStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="16dp"
         android:background="@drawable/border_round"
         android:ems="10"
-        android:hint="Food Name"
+        android:hint="Title"
+        android:inputType="textShortMessage"
+        android:selectAllOnFocus="false"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/divider10" />
+
+    <EditText
+        android:id="@+id/etDish"
+        style="@style/textStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/border_round"
+        android:ems="10"
+        android:hint="Dish Name"
+        android:inputType="textShortMessage"
+        android:selectAllOnFocus="false"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etRestaurant" />
+
+    <EditText
+        android:id="@+id/etRestaurant"
+        style="@style/textStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/border_round"
+        android:ems="10"
+        android:hint="Restaurant"
         android:inputType="textShortMessage"
         android:selectAllOnFocus="false"
         android:visibility="visible"
@@ -50,9 +85,9 @@
         android:max="4"
         android:progress="3"
         android:progressTint="@color/queenBlue"
-        app:layout_constraintEnd_toEndOf="@+id/etFoodName"
-        app:layout_constraintStart_toStartOf="@+id/etFoodName"
-        app:layout_constraintTop_toBottomOf="@+id/cmpRestaurant" />
+        app:layout_constraintEnd_toEndOf="@+id/cmpTitle"
+        app:layout_constraintStart_toStartOf="@+id/cmpTitle"
+        app:layout_constraintTop_toBottomOf="@+id/cmpTitle" />
 
     <EditText
         android:id="@+id/cmpDescription"
@@ -65,9 +100,9 @@
         android:gravity="bottom"
         android:hint="Description"
         android:inputType="textLongMessage|textMultiLine"
-        app:layout_constraintEnd_toEndOf="@+id/etFoodName"
+        app:layout_constraintEnd_toEndOf="@+id/cmpTitle"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/etFoodName"
+        app:layout_constraintStart_toStartOf="@+id/cmpTitle"
         app:layout_constraintTop_toBottomOf="@+id/tvRating" />
 
     <TextView
@@ -81,6 +116,19 @@
         app:layout_constraintStart_toStartOf="@+id/sbRating"
         app:layout_constraintTop_toBottomOf="@+id/sbRating" />
 
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="center_horizontal"
+        android:padding="10dp"
+        android:text="Got something to say?"
+        android:textSize="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <View
         android:id="@+id/divider8"
         android:layout_width="0dp"
@@ -90,6 +138,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView8" />
+
+    <View
+        android:id="@+id/divider10"
+        android:layout_width="0dp"
+        android:layout_height="2dp"
+        android:layout_marginTop="16dp"
+        android:background="?attr/dividerHorizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etDish" />
 
     <EditText
         android:id="@+id/cmpRestaurant"
