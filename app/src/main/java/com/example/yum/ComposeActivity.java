@@ -119,7 +119,7 @@ public class ComposeActivity extends AppCompatActivity {
         });
     }
 
-    // helper function to display food image
+    // helper function to display food image in ImageView
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
@@ -144,7 +144,7 @@ public class ComposeActivity extends AppCompatActivity {
         path += id;
         path += ".jgp";
 
-
+        // pushing the image to storage and setting URL
         final StorageReference riversRef = FirebaseStorage.getInstance().getReference()
                 .child(path);
         riversRef.putFile(targetUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {

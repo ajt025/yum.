@@ -82,9 +82,9 @@ public class ExploreFragment extends Fragment {
             public void onClick(View view) {
 
                 final String searchKeyWords = search.getText().toString();
+
                 final ArrayList<String> food = new ArrayList<String>();
-
-
+                final ArrayList<String> URLs = new ArrayList<String>();
 
                 FirebaseDatabase database = FirebaseDatabase.getInstance();
                 databaseRef = database.getReference().child("Reviews");
@@ -99,9 +99,10 @@ public class ExploreFragment extends Fragment {
                             if (currFood.food.contains(searchKeyWords)) {
                                 System.out.println(currFood.food);
                                 System.out.println(currFood.imageURL);
+
+                                food.add(currFood.food);
+                                URLs.add(currFood.imageURL);
                             }
-
-
                         }
                     }
 
