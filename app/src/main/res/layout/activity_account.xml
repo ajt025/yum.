@@ -55,8 +55,8 @@
         android:ems="10"
         android:hint="Last Name"
         android:inputType="textWebEmailAddress"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
-        app:layout_constraintTop_toTopOf="@+id/imageView" />
+        app:layout_constraintStart_toEndOf="@+id/ivDisplay"
+        app:layout_constraintTop_toTopOf="@+id/ivDisplay" />
 
     <EditText
         android:id="@+id/accFirst"
@@ -96,7 +96,7 @@
         app:layout_constraintTop_toBottomOf="@+id/accPassword" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/ivDisplay"
         style="@style/iconStyle"
         android:layout_width="50dp"
         android:layout_height="50dp"

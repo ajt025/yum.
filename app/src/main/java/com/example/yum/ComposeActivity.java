@@ -1,16 +1,12 @@
 package com.example.yum;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.health.SystemHealthManager;
-import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,16 +15,11 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.yum.models.Review;
-import com.example.yum.fragments.ExploreFragment;
-import com.example.yum.models.Food_Review_Database;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
@@ -38,7 +29,7 @@ import java.io.FileNotFoundException;
 public class ComposeActivity extends AppCompatActivity {
 
     private Button btnInsertImage;
-    private Button btnSubmit;
+    private FloatingActionButton fabSubmit;
     private EditText cmpTitle;
     private SeekBar sbRating;
     private EditText cmpDescription;
@@ -57,13 +48,13 @@ public class ComposeActivity extends AppCompatActivity {
 
 
 
-        btnInsertImage = findViewById(R.id.btnImageInsert);
-        btnSubmit = findViewById(R.id.btnSubmit);
-        cmpTitle = findViewById(R.id.cmpTitle);
+        btnInsertImage = findViewById(R.id.btnUpload);
+        fabSubmit = findViewById(R.id.fabSubmit);
+        cmpTitle = findViewById(R.id.etFoodName);
         sbRating = findViewById(R.id.sbRating);
         cmprestauarant = findViewById(R.id.cmpRestaurant);
         cmpDescription = findViewById(R.id.cmpDescription);
-        viewImage = findViewById(R.id.imageView);
+        viewImage = findViewById(R.id.ivDisplay);
 
         myDatabase = FirebaseDatabase.getInstance().getReference().child("Reviews");
 
@@ -81,13 +72,13 @@ public class ComposeActivity extends AppCompatActivity {
 
 
         // Submitting data to firebase
-        btnSubmit.setOnClickListener(new View.OnClickListener() {
+        fabSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
 
                 String title = cmpTitle.getText().toString();
-                int rating = Integer.parseInt(cmpRating.getText().toString().trim());
+                int rating = sbRating.getProgress() + 1;
                 String description = cmpDescription.getText().toString();
                 String restaurant = cmprestauarant.getText().toString();
                 String id = myDatabase.push().getKey();
@@ -113,7 +104,7 @@ public class ComposeActivity extends AppCompatActivity {
 
                 // send it to firebase
                 myDatabase.push().setValue(review);
-                myDatabase.child(id).setValue(foodObject);
+                myDatabase.child(id).setValue(review);
 
 
                 Toast.makeText(ComposeActivity.this, "Review Submitted", Toast.LENGTH_LONG).show();

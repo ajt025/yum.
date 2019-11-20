@@ -8,20 +8,21 @@
     android:alwaysDrawnWithCache="false"
     tools:context=".ComposeActivity">
 
-    <Button
-        android:id="@+id/btnSubmit"
-        style="@style/buttonStyle"
-        android:layout_width="wrap_content"
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center_horizontal"
         android:padding="10dp"
-        android:text="Submit"
+        android:text="Got something to say?"
+        android:textSize="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cmpDescription" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/cmpTitle"
+        android:id="@+id/etFoodName"
         style="@style/textStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -43,30 +44,30 @@
         style="@style/Widget.AppCompat.SeekBar.Discrete"
         android:layout_width="0dp"
         android:layout_height="20dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         android:background="@drawable/border_round"
         android:inputType="none"
         android:max="4"
         android:progress="3"
         android:progressTint="@color/queenBlue"
-        app:layout_constraintEnd_toEndOf="@+id/cmpTitle"
-        app:layout_constraintStart_toStartOf="@+id/cmpTitle"
-        app:layout_constraintTop_toBottomOf="@+id/cmpTitle" />
+        app:layout_constraintEnd_toEndOf="@+id/etFoodName"
+        app:layout_constraintStart_toStartOf="@+id/etFoodName"
+        app:layout_constraintTop_toBottomOf="@+id/cmpRestaurant" />
 
     <EditText
         android:id="@+id/cmpDescription"
         style="@style/textStyle"
         android:layout_width="0dp"
-        android:layout_height="200dp"
+        android:layout_height="150dp"
         android:layout_marginTop="24dp"
         android:background="@drawable/border_round"
         android:ems="10"
         android:gravity="bottom"
         android:hint="Description"
         android:inputType="textLongMessage|textMultiLine"
-        app:layout_constraintEnd_toEndOf="@+id/cmpTitle"
+        app:layout_constraintEnd_toEndOf="@+id/etFoodName"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/cmpTitle"
+        app:layout_constraintStart_toStartOf="@+id/etFoodName"
         app:layout_constraintTop_toBottomOf="@+id/tvRating" />
 
     <TextView
@@ -80,19 +81,6 @@
         app:layout_constraintStart_toStartOf="@+id/sbRating"
         app:layout_constraintTop_toBottomOf="@+id/sbRating" />
 
-    <TextView
-        android:id="@+id/textView8"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:gravity="center_horizontal"
-        android:padding="10dp"
-        android:text="Got something to say?"
-        android:textSize="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <View
         android:id="@+id/divider8"
         android:layout_width="0dp"
@@ -105,32 +93,49 @@
 
     <EditText
         android:id="@+id/cmpRestaurant"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="161dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/border_round"
         android:ems="10"
         android:hint="Restaurant"
         android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cmpTitle" />
+        app:layout_constraintEnd_toEndOf="@+id/etFoodName"
+        app:layout_constraintStart_toStartOf="@+id/etFoodName"
+        app:layout_constraintTop_toBottomOf="@+id/etFoodName" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/ivDisplay"
         android:layout_width="252dp"
         android:layout_height="183dp"
-        android:layout_marginTop="24dp"
         android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cmpDescription"
+        app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@android:color/background_dark" />
 
     <Button
-        android:id="@+id/btnImageInsert"
-        android:layout_width="95dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="12dp"
+        android:id="@+id/btnUpload"
+        style="@style/buttonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:text="Insert Image"
-        app:layout_constraintEnd_toStartOf="@+id/imageView"
-        app:layout_constraintTop_toBottomOf="@+id/cmpDescription" />
+        app:layout_constraintBottom_toTopOf="@+id/ivDisplay"
+        app:layout_constraintEnd_toEndOf="@+id/cmpDescription"
+        app:layout_constraintStart_toStartOf="@+id/cmpDescription" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabSubmit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:backgroundTint="@color/queenBlue"
+        android:clickable="true"
+        android:tint="@color/moccasin"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/ic_check_24px" />
 </androidx.constraintlayout.widget.ConstraintLayout>
