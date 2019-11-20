@@ -30,7 +30,7 @@
         android:layout_marginEnd="16dp"
         android:background="@drawable/border_round"
         android:ems="10"
-        android:hint="Title"
+        android:hint="Food Name"
         android:inputType="textShortMessage"
         android:selectAllOnFocus="false"
         android:visibility="visible"
@@ -102,4 +102,35 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView8" />
+
+    <EditText
+        android:id="@+id/cmpRestaurant"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="161dp"
+        android:ems="10"
+        android:hint="Restaurant"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cmpTitle" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="252dp"
+        android:layout_height="183dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cmpDescription"
+        app:srcCompat="@android:color/background_dark" />
+
+    <Button
+        android:id="@+id/btnImageInsert"
+        android:layout_width="95dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="12dp"
+        android:text="Insert Image"
+        app:layout_constraintEnd_toStartOf="@+id/imageView"
+        app:layout_constraintTop_toBottomOf="@+id/cmpDescription" />
 </androidx.constraintlayout.widget.ConstraintLayout>
