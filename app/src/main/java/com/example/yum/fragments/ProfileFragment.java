@@ -12,6 +12,7 @@ import android.widget.Switch;
 
 import androidx.fragment.app.Fragment;
 
+import com.example.yum.ListActivity;
 import com.example.yum.LoginActivity;
 import com.example.yum.R;
 import com.example.yum.models.Settings;
@@ -22,6 +23,8 @@ import com.google.firebase.database.FirebaseDatabase;
 public class ProfileFragment extends Fragment {
 
     private Button btnSignOut;
+    private Button btnWishlist;
+    private Button btnFavorites;
     private Context context;
     private Switch switchVegetarian;
     private Switch switchVegan;
@@ -29,6 +32,8 @@ public class ProfileFragment extends Fragment {
 
     private DatabaseReference myDatabase;
     private Settings settings;
+
+    private final int FAVORITE = 0, WISHLIST = 1;
 
     // The onCreateView method is called when Fragment should create its View object hierarchy.
     @Override
@@ -46,6 +51,8 @@ public class ProfileFragment extends Fragment {
 
 
         btnSignOut = view.findViewById(R.id.btnSignOut);
+        btnWishlist = view.findViewById(R.id.btnWishlist);
+        btnFavorites = view.findViewById(R.id.btnFavorites);
 
         btnSignOut.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,6 +72,24 @@ public class ProfileFragment extends Fragment {
         myDatabase = FirebaseDatabase.getInstance().getReference().child("User Settings");
         final String currUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
         settings = new Settings();
+
+        btnWishlist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final Intent intent = new Intent(context, ListActivity.class);
+                intent.putExtra("type", WISHLIST);
+                startActivity(intent);
+            }
+        });
+
+        btnFavorites.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final Intent intent = new Intent(context, ListActivity.class);
+                intent.putExtra("type", FAVORITE);
+                startActivity(intent);
+            }
+        });
 
         // TODO implement state persistence --> upon profile screen load, check if switches are
         // already set and reflect accordingly

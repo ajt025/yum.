@@ -9,7 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".RecoveryActivity"></activity>
+        <activity android:name=".RestaurantActivity"></activity>
+        <activity android:name=".ListActivity" />
+        <activity android:name=".RecoveryActivity" />
         <activity android:name=".CreateAccountActivity" />
         <activity android:name=".FoodProfileActivity" />
         <activity android:name=".ComposeActivity" />
@@ -20,12 +22,11 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
+
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
     </application>
-
 
 </manifest>

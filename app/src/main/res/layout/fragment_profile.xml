@@ -22,11 +22,11 @@
             android:layout_marginStart="24dp"
             android:layout_marginLeft="24dp"
             android:text="Wishlist"
-            app:layout_constraintStart_toEndOf="@+id/btnFavorite"
+            app:layout_constraintStart_toEndOf="@+id/btnFavorites"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/btnFavorite"
+            android:id="@+id/btnFavorites"
             style="@style/buttonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

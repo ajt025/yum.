@@ -28,13 +28,13 @@ import java.io.FileNotFoundException;
 
 public class ComposeActivity extends AppCompatActivity {
 
-    private Button btnInsertImage;
-    private FloatingActionButton fabSubmit;
-    private EditText cmpTitle;
-    private SeekBar sbRating;
-    private EditText cmpDescription;
-    private EditText cmprestauarant;
-    private ImageView viewImage;
+    private FloatingActionButton fabSubmit; // completes review + submits
+    private EditText etDishName; // name of the dish
+    private SeekBar sbRating; // rating of the dish
+    private EditText etTitle; // title of review
+    private EditText etReviewBody; // review description
+    private EditText etRestaurantName; // name of the restaurant
+    private ImageView ivDisplay; // image of dish + handles intent to gallery
     private DatabaseReference myDatabase;
 
     Review review;
@@ -48,18 +48,17 @@ public class ComposeActivity extends AppCompatActivity {
 
 
 
-        btnInsertImage = findViewById(R.id.btnUpload);
         fabSubmit = findViewById(R.id.fabSubmit);
-        cmpTitle = findViewById(R.id.etFoodName);
+        etDishName = findViewById(R.id.etDish);
         sbRating = findViewById(R.id.sbRating);
-        cmprestauarant = findViewById(R.id.cmpRestaurant);
-        cmpDescription = findViewById(R.id.cmpDescription);
-        viewImage = findViewById(R.id.ivDisplay);
+        etRestaurantName = findViewById(R.id.etRestaurant);
+        etReviewBody = findViewById(R.id.etReviewBody);
+        ivDisplay = findViewById(R.id.ivDisplay);
 
         myDatabase = FirebaseDatabase.getInstance().getReference().child("Reviews");
 
         // pick image of food
-        btnInsertImage.setOnClickListener(new View.OnClickListener() {
+        ivDisplay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
                 Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images
@@ -76,11 +75,11 @@ public class ComposeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-
-                String title = cmpTitle.getText().toString();
+                // TODO impose null checks on edittexts to ensure you're not sending empty strings
+                String title = etTitle.getText().toString();
                 int rating = sbRating.getProgress() + 1;
-                String description = cmpDescription.getText().toString();
-                String restaurant = cmprestauarant.getText().toString();
+                String description = etReviewBody.getText().toString();
+                String restaurant = etRestaurantName.getText().toString(); // TODO eventually use google places + ID?
                 String id = myDatabase.push().getKey();
 
                 //constructing data object here
@@ -119,6 +118,8 @@ public class ComposeActivity extends AppCompatActivity {
         });
     }
 
+    // HELPER METHODS
+
     // helper function to display food image in ImageView
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -128,7 +129,7 @@ public class ComposeActivity extends AppCompatActivity {
 
             try {
                 bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(targetUri));
-                viewImage.setImageBitmap(bitmap);
+                ivDisplay.setImageBitmap(bitmap);
             } catch (FileNotFoundException e){
                 e.printStackTrace();
             }
