@@ -8,20 +8,8 @@
     android:alwaysDrawnWithCache="false"
     tools:context=".ComposeActivity">
 
-    <Button
-        android:id="@+id/btnSubmit"
-        style="@style/buttonStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:padding="10dp"
-        android:text="Submit"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cmpDescription" />
-
     <EditText
-        android:id="@+id/cmpTitle"
+        android:id="@+id/etTitle"
         style="@style/textStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -44,7 +32,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:background="@drawable/border_round"
         android:ems="10"
@@ -54,7 +42,7 @@
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etRestaurant" />
+        app:layout_constraintTop_toBottomOf="@+id/divider8" />
 
     <EditText
         android:id="@+id/etRestaurant"
@@ -62,7 +50,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:background="@drawable/border_round"
         android:ems="10"
@@ -72,7 +60,7 @@
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider8" />
+        app:layout_constraintTop_toBottomOf="@+id/etDish" />
 
     <SeekBar
         android:id="@+id/sbRating"
@@ -85,12 +73,12 @@
         android:max="4"
         android:progress="3"
         android:progressTint="@color/queenBlue"
-        app:layout_constraintEnd_toEndOf="@+id/cmpTitle"
-        app:layout_constraintStart_toStartOf="@+id/cmpTitle"
-        app:layout_constraintTop_toBottomOf="@+id/cmpTitle" />
+        app:layout_constraintEnd_toEndOf="@+id/etTitle"
+        app:layout_constraintStart_toStartOf="@+id/etTitle"
+        app:layout_constraintTop_toBottomOf="@+id/etTitle" />
 
     <EditText
-        android:id="@+id/cmpDescription"
+        android:id="@+id/etReviewBody"
         style="@style/textStyle"
         android:layout_width="0dp"
         android:layout_height="150dp"
@@ -100,9 +88,9 @@
         android:gravity="bottom"
         android:hint="Description"
         android:inputType="textLongMessage|textMultiLine"
-        app:layout_constraintEnd_toEndOf="@+id/cmpTitle"
+        app:layout_constraintEnd_toEndOf="@+id/etTitle"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/cmpTitle"
+        app:layout_constraintStart_toStartOf="@+id/etTitle"
         app:layout_constraintTop_toBottomOf="@+id/tvRating" />
 
     <TextView
@@ -147,20 +135,7 @@
         android:background="?attr/dividerHorizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etDish" />
-
-    <EditText
-        android:id="@+id/cmpRestaurant"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/border_round"
-        android:ems="10"
-        android:hint="Restaurant"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="@+id/etFoodName"
-        app:layout_constraintStart_toStartOf="@+id/etFoodName"
-        app:layout_constraintTop_toBottomOf="@+id/etFoodName" />
+        app:layout_constraintTop_toBottomOf="@+id/etRestaurant" />
 
     <ImageView
         android:id="@+id/ivDisplay"
@@ -172,17 +147,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@android:color/background_dark" />
-
-    <Button
-        android:id="@+id/btnUpload"
-        style="@style/buttonStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:text="Insert Image"
-        app:layout_constraintBottom_toTopOf="@+id/ivDisplay"
-        app:layout_constraintEnd_toEndOf="@+id/cmpDescription"
-        app:layout_constraintStart_toStartOf="@+id/cmpDescription" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabSubmit"
