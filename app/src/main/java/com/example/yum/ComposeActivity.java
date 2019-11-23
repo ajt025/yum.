@@ -47,7 +47,8 @@ public class ComposeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_compose);
 
 
-
+        etTitle = findViewById(R.id.etTitle);
+        etDishName = findViewById(R.id.etDish);
         fabSubmit = findViewById(R.id.fabSubmit);
         etDishName = findViewById(R.id.etDish);
         sbRating = findViewById(R.id.sbRating);
@@ -76,6 +77,7 @@ public class ComposeActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 // TODO impose null checks on edittexts to ensure you're not sending empty strings
+                String dish = etDishName.getText().toString();
                 String title = etTitle.getText().toString();
                 int rating = sbRating.getProgress() + 1;
                 String description = etReviewBody.getText().toString();
@@ -85,26 +87,19 @@ public class ComposeActivity extends AppCompatActivity {
                 //constructing data object here
                 review = new Review();
 
+                review.setFood(dish);
                 review.setReviewTitle(title);
                 review.setReviewBody(description);
                 review.setRating(sbRating.getProgress() + 1);
                 review.setReviewId(id);
                 review.setUpvoteCount(0);
                 review.setDownvoteCount(0);
-//                foodObject.setFood_restaurant(restaurant);
-//                foodObject.setReview_body(description);
-//                foodObject.setRating(rating);
-//                foodObject.setReview_id(id);
-//                foodObject.setUpvote_count(0);
-//                foodObject.setDownvote_count(0);
-//                foodObject.setFood(title);
+
 
                 uploadPicture(id);
 
                 // send it to firebase
-                myDatabase.push().setValue(review);
                 myDatabase.child(id).setValue(review);
-
 
                 Toast.makeText(ComposeActivity.this, "Review Submitted", Toast.LENGTH_LONG).show();
 
@@ -156,7 +151,7 @@ public class ComposeActivity extends AppCompatActivity {
                     public void onSuccess(Uri uri) {
 
                         // setting download URL here
-                        myDatabase.child(idToFind).child("imageURL").
+                        myDatabase.child(idToFind).child("imgPath").
                                 setValue(uri.toString());
 
 

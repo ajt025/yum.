@@ -3,11 +3,14 @@ package com.example.yum.fragments;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -18,10 +21,16 @@ import com.example.yum.ComposeActivity;
 import com.example.yum.FoodAdapter;
 import com.example.yum.R;
 import com.example.yum.models.Food;
+import com.example.yum.models.Review;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class ExploreFragment extends Fragment {
 
@@ -29,6 +38,7 @@ public class ExploreFragment extends Fragment {
     private FloatingActionButton btnCompose;
     private TextView tvFilters;
     private ConstraintLayout clOptions;
+    private EditText searchBar;
 
     private RecyclerView rvFoods;
     private ArrayList<Food> foods;
@@ -57,6 +67,7 @@ public class ExploreFragment extends Fragment {
         tvFilters = view.findViewById(R.id.tvFilters);
         clOptions = view.findViewById(R.id.clOptions);
         rvFoods = view.findViewById(R.id.rvFood);
+        searchBar = view.findViewById(R.id.searchBar);
 
 
         btnCompose.setOnClickListener(new View.OnClickListener() {
@@ -92,46 +103,50 @@ public class ExploreFragment extends Fragment {
         populateFoods(); // call to put reviews into RV
 
         // TODO update this to be used for onTextListener and call function when enter is pressed
-//        btnSearch.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//                final String searchKeyWords = search.getText().toString();
-//
-//                final ArrayList<String> food = new ArrayList<String>();
-//                final ArrayList<String> URLs = new ArrayList<String>();
-//
-//                FirebaseDatabase database = FirebaseDatabase.getInstance();
-//                databaseRef = database.getReference().child("Reviews");
-//
-//                databaseRef.addListenerForSingleValueEvent(new ValueEventListener() {
-//                    @Override
-//                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                        for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
-//                            Review currFood = snapshot.getValue(Review.class);
-//
-//                            //relevant food found
-//                            if (currFood.food.contains(searchKeyWords)) {
-//                                System.out.println(currFood.food);
-//                                System.out.println(currFood.imageURL);
-//
-//                                food.add(currFood.food);
-//                                URLs.add(currFood.imageURL);
-//                            }
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//                    }
-//                });
-//
-//
-//
-//
-//            }
-//        });
+        searchBar.setOnKeyListener((new View.OnKeyListener() {
+
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
+                        (keyCode == KeyEvent.KEYCODE_ENTER)) {
+
+                    System.out.println("FSF");
+                    final String searchedWord = searchBar.getText().toString();
+
+                    final ArrayList<String> food = new ArrayList<String>();
+                    final ArrayList<String> URLs = new ArrayList<String>();
+
+                    FirebaseDatabase database = FirebaseDatabase.getInstance();
+                    databaseRef = database.getReference().child("Reviews");
+
+                    databaseRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                            for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
+                                Review currFood = snapshot.getValue(Review.class);
+                                if (currFood.getFood().contains(searchedWord)) {
+                                    food.add(currFood.food);
+                                    URLs.add(currFood.getImgPath());
+                                }
+
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+
+                    return true;
+                }
+                return false;
+
+
+            }
+
+        }));
     }
 
     // HELPER METHODS

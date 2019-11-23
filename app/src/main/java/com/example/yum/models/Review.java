@@ -11,9 +11,11 @@ public class Review {
     public String imgPath;
     public String reviewTitle;
     public String reviewBody;
+    public String food;
     public int upvoteCount;
     public int downvoteCount;
     public double rating;
+
 
     public String getReviewId() {
         return reviewId;
@@ -29,6 +31,14 @@ public class Review {
 
     public void setUserId(int userId) {
         this.userId = userId;
+    }
+
+    public String getFood() {
+        return food;
+    }
+
+    public void setFood(String food) {
+        this.food = food;
     }
 
     public int getFoodId() {
