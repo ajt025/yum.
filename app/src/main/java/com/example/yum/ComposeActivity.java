@@ -91,6 +91,7 @@ public class ComposeActivity extends AppCompatActivity {
                 review.setReviewTitle(title);
                 review.setReviewBody(description);
                 review.setRating(sbRating.getProgress() + 1);
+
                 review.setReviewId(id);
                 review.setUpvoteCount(0);
                 review.setDownvoteCount(0);
