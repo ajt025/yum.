@@ -7,7 +7,7 @@ public class Review {
     public String reviewId;
     public int userId;
     public int foodId;
-    public int restaurantId;
+    public String restaurant;
     public String imgPath;
     public String reviewTitle;
     public String reviewBody;
@@ -49,12 +49,12 @@ public class Review {
         this.foodId = foodId;
     }
 
-    public int getRestaurantId() {
-        return restaurantId;
+    public String getRestaurant() {
+        return restaurant;
     }
 
-    public void setRestaurantId(int restaurantId) {
-        this.restaurantId = restaurantId;
+    public void setRestaurant(String restaurantId) {
+        this.restaurant = restaurantId;
     }
 
     public String getImgPath() {

@@ -18,7 +18,7 @@
         app:srcCompat="@android:color/background_dark" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvRestaurants"
+        android:id="@+id/rvReviews"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="24dp"

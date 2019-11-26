@@ -86,13 +86,15 @@ public class ComposeActivity extends AppCompatActivity {
 
                 //constructing data object here
                 review = new Review();
-
                 review.setFood(dish);
                 review.setReviewTitle(title);
                 review.setReviewBody(description);
-                review.setRating(sbRating.getProgress() + 1);
+                review.setRating(rating);
 
                 review.setReviewId(id);
+
+                review.setRestaurant(restaurant);
+
                 review.setUpvoteCount(0);
                 review.setDownvoteCount(0);
 
