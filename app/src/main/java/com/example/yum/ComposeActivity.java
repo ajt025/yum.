@@ -37,6 +37,7 @@ public class ComposeActivity extends AppCompatActivity {
     private ImageView ivDisplay; // image of dish + handles intent to gallery
     private DatabaseReference myDatabase;
 
+
     Review review;
     private Uri targetUri;
     private Bitmap bitmap;
