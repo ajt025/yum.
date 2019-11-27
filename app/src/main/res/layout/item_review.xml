@@ -54,7 +54,18 @@
         app:layout_constraintEnd_toStartOf="@+id/rbRating"
         app:layout_constraintStart_toEndOf="@+id/ivProfile"
         app:layout_constraintTop_toTopOf="@+id/ivProfile" />
+    <TextView
+        android:id="@+id/tvUpvoteCounter"
 
+        android:text="0"
+        android:layout_width="15dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintEnd_toStartOf="@+id/imageView4"
+        app:layout_constraintTop_toBottomOf="@+id/tvReview"
+        />
     <ImageView
         android:id="@+id/imageView4"
         android:layout_width="30dp"

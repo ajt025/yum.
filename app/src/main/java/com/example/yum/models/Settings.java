@@ -6,6 +6,7 @@ public class Settings {
     public boolean vegan;
     public boolean location;
 
+
     public Settings() {
         vegan = false;
         vegetarian = false;
@@ -36,4 +37,5 @@ public class Settings {
     public void setLocation(boolean location) {
         this.location = location;
     }
+
 }
