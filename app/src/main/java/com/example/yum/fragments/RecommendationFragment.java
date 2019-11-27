@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.yum.R;
 import com.example.yum.RecAdapter;
 import com.example.yum.models.Review;
+import com.google.firebase.database.*;
 
 import java.util.ArrayList;
 
@@ -25,6 +26,7 @@ public class RecommendationFragment extends Fragment {
     RecyclerView rvRecs;
     RecAdapter recAdapter;
     ArrayList<Pair<Review, Integer>> recs;
+    DatabaseReference databaseRef;
 
     // The onCreateView method is called when Fragment should create its View object hierarchy.
     @Override
@@ -57,8 +59,28 @@ public class RecommendationFragment extends Fragment {
         /*
          * TODO remove this, just test code. Here is where you would make database calls and retrieve reviews
          */
+
+        final ArrayList<Review> reviews = new ArrayList<Review>();
+
+        // get reviews from database
+        databaseRef = FirebaseDatabase.getInstance().getReference().child("Reviews");
+        databaseRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot rev : dataSnapshot.getChildren()){
+                    Review review = rev.getValue(Review.class);
+                    reviews.add(review);
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // ignore
+            }
+        });
+
+        // for now just add the first 10 reviews
         for (int i = 0; i < 10; ++i) {
-            recs.add(new Pair<Review, Integer>(new Review(), i % 2)); // alternate b/t dare and share
+            recs.add(new Pair<Review, Integer>(reviews.get(i), i % 2)); // alternate b/t dare and share
             recAdapter.notifyItemInserted(recs.size() - 1); // tells rv to check for updates
         }
     }
