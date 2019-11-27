@@ -50,12 +50,12 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> {
     // bind values based on the position of each element
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
-        Food food = mFoods.get(position);
+        Food food1 = mFoods.get(position);
 
         // this is where we will load images/text/etc into the review RecyclerView
-        holder.textViewName.setText(food.getName());
+        holder.textViewName.setText(food1.getName());
         Picasso.get()
-                .load(food.getImgPath())
+                .load(food1.getImgPath())
                 .fit()
                 .centerCrop()
                 .into(holder.imageView);

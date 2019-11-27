@@ -24,6 +24,8 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.HashSet;
 
 
 public class ComposeActivity extends AppCompatActivity {
@@ -96,8 +98,8 @@ public class ComposeActivity extends AppCompatActivity {
 
                 review.setRestaurant(restaurant);
 
-                review.setUpvoteCount(0);
-                review.setDownvoteCount(0);
+                review.setUpvoteCount(new ArrayList<String>());
+                review.setDownvoteCount(new ArrayList<String>());
 
 
                 uploadPicture(id);
