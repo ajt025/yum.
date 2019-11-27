@@ -97,9 +97,12 @@ public class ComposeActivity extends AppCompatActivity {
                 review.setReviewId(id);
 
                 review.setRestaurant(restaurant);
-
-                review.setUpvoteCount(new ArrayList<String>());
-                review.setDownvoteCount(new ArrayList<String>());
+                ArrayList<String> upvote = new ArrayList<String>();
+                ArrayList<String> downvote = new ArrayList<String>();
+                upvote.add("0");
+                downvote.add("0");
+                review.setUpvoteCount(upvote);
+                review.setDownvoteCount(downvote);
 
 
                 uploadPicture(id);
