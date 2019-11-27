@@ -135,7 +135,7 @@ public class ExploreFragment extends Fragment {
                             for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
                                 Review currFood = snapshot.getValue(Review.class);
 
-                                if (currFood.getFood().toLowerCase().contains(searchedWord)) {
+                                if (currFood.getFood().toLowerCase().contains(searchedWord.toLowerCase())) {
 
 
                                     Food myFood = new Food();
