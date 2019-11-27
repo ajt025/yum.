@@ -18,6 +18,7 @@ import com.squareup.picasso.Picasso;
 import org.parceler.Parcels;
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> {
@@ -103,5 +104,11 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> {
             });*/
         }
 
+    }
+
+    public void updateData(ArrayList<Food> viewModels) {
+        mFoods.clear();
+        mFoods.addAll(viewModels);
+        notifyDataSetChanged();
     }
 }

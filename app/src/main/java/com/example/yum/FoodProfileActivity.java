@@ -64,8 +64,6 @@ public class FoodProfileActivity extends AppCompatActivity {
 
         getIncomingIntent();
 
-
-
     }
 
     // HELPER METHODS
@@ -96,31 +94,34 @@ public class FoodProfileActivity extends AppCompatActivity {
                             if (currFood != null) {
                                 addReview(currFood);
                             }
-                            System.out.println(currFood.getFood());
-                            System.out.println(currFood.getRestaurant());
+                            //System.out.println(currFood.getFood());
+                            //System.out.println(currFood.getRestaurant());
 
                             TextView restaurantName = findViewById(R.id.profileRestaurantName);
                             restaurantName.setText(currFood.getRestaurant());
-
 
                         }
 
                         System.out.println(reviews.size());
 
-
                     }
+
+                    reviewAdapter = new ReviewAdapter(reviews);
+                    rvReviews.setAdapter(reviewAdapter);
+
+
                 }
-
-
-
-
             }
+
+
+
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
         });
+
 
 
     }
