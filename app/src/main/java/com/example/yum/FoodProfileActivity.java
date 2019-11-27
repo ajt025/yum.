@@ -7,12 +7,17 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.yum.models.Food;
 import com.example.yum.models.Restaurant;
 import com.example.yum.models.Review;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -29,15 +34,48 @@ public class FoodProfileActivity extends AppCompatActivity {
     ArrayList<Restaurant> restaurants;
     ArrayList<Review> reviews;
     private DatabaseReference databaseRef;
+    private TextView tvFood;
+    private TextView tvRestaurant;
     String imageURL;
     String foodName;
+    String wishListItem;
     ReviewAdapter reviewAdapter;
+    Button wishlistBtn;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_food_profile);
+
+        databaseRef = FirebaseDatabase.getInstance().getReference().child("Wishlist");
+
+        tvFood = findViewById(R.id.profileFoodName);
+        tvRestaurant = findViewById(R.id.profileRestaurantName);
+        final String wishListID = tvFood.getText().toString() + "_" + tvRestaurant.getText().toString();
+
+        // Wishlist functinoality
+        wishlistBtn = findViewById(R.id.btnWishlist);
+        wishlistBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //get the id of the user
+                final String currUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+                databaseRef.child(currUser).setValue(wishListID);
+                //TODO check if food item with same id is already in the wish list
+
+                Toast.makeText(FoodProfileActivity.this, "Food added to wishlist", Toast.LENGTH_LONG).show();
+
+               // finish();
+        }
+
+
+
+
+
+        });
 
         reviews = new ArrayList<>();
         restaurants = new ArrayList<>();
@@ -67,6 +105,9 @@ public class FoodProfileActivity extends AppCompatActivity {
     }
 
     // HELPER METHODS
+
+
+
 
     private void populateReviews() {
 
