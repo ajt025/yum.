@@ -23,6 +23,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.database.Query;
 
 import com.squareup.picasso.Picasso;
 
@@ -37,7 +38,7 @@ public class FoodProfileActivity extends AppCompatActivity {
     ArrayList<Restaurant> restaurants;
     ArrayList<Review> reviews;
     //private DatabaseReference databaseRef;
-    DatabaseReference databaseRef;
+    protected DatabaseReference databaseRef;
     private TextView tvFood;
     private TextView tvRestaurant;
     String imageURL;
@@ -53,32 +54,47 @@ public class FoodProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_food_profile);
 
-        databaseRef = FirebaseDatabase.getInstance().getReference("Wishlist"); // reference to wishlist
-        //databaseRef.child("user").push().setValue("food_item");
-
-
-
+        //declare database reference - is this line redundant?
+       // databaseRef = FirebaseDatabase.getInstance().getReference("Wishlist"); // reference to wishlist
 
         // Get info on food profile page
         tvFood = findViewById(R.id.profileFoodName);
         tvRestaurant = findViewById(R.id.profileRestaurantName);
         final String wishListID = tvFood.getText().toString() + "_" + tvRestaurant.getText().toString();
 
+        System.out.println(wishListID);
+
         // Wishlist functinoality
         wishlistBtn = findViewById(R.id.btnWishlist);
         wishlistBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // for some reason, we have to define this again or it reverts back to "Review"
-                databaseRef = FirebaseDatabase.getInstance().getReference("Wishlist"); // reference to wishlist
+
                 //get the id of the user
                 final String currUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                System.out.println("Debug info:");
-                System.out.println(databaseRef);
-                databaseRef.child(currUser).push().setValue(wishListID);
+                // for some reason, we have to define this again or it reverts back to "Review"
+                databaseRef = FirebaseDatabase.getInstance().getReference("User Info").child(currUser);
+
+                Query query = databaseRef.equalTo(wishListID);
+                query.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        if ( dataSnapshot.exists() ) {
+                            Toast.makeText(FoodProfileActivity.this, "Food already in Wishlist", Toast.LENGTH_LONG).show();
+                        }else{
+                            databaseRef.child("Wishlist").push().setValue(wishListID);
+                            Toast.makeText(FoodProfileActivity.this, "Food added to Wishlist", Toast.LENGTH_LONG).show();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        throw databaseError.toException();
+                    }
+                });
+
                 //TODO check if food item with same id is already in the wish list
 
-                Toast.makeText(FoodProfileActivity.this, "Food added to wishlist", Toast.LENGTH_LONG).show();
 
             }
 
