@@ -23,17 +23,21 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
+
 public class FoodProfileActivity extends AppCompatActivity {
 
+    // Fields
     RecyclerView rvReviews;
     //RestaurantAdapter restaurantAdapter;
     ArrayList<Restaurant> restaurants;
     ArrayList<Review> reviews;
-    private DatabaseReference databaseRef;
+    //private DatabaseReference databaseRef;
+    DatabaseReference databaseRef;
     private TextView tvFood;
     private TextView tvRestaurant;
     String imageURL;
@@ -49,8 +53,13 @@ public class FoodProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_food_profile);
 
-        databaseRef = FirebaseDatabase.getInstance().getReference().child("Wishlist");
+        databaseRef = FirebaseDatabase.getInstance().getReference("Wishlist"); // reference to wishlist
+        //databaseRef.child("user").push().setValue("food_item");
 
+
+
+
+        // Get info on food profile page
         tvFood = findViewById(R.id.profileFoodName);
         tvRestaurant = findViewById(R.id.profileRestaurantName);
         final String wishListID = tvFood.getText().toString() + "_" + tvRestaurant.getText().toString();
@@ -60,19 +69,18 @@ public class FoodProfileActivity extends AppCompatActivity {
         wishlistBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // for some reason, we have to define this again or it reverts back to "Review"
+                databaseRef = FirebaseDatabase.getInstance().getReference("Wishlist"); // reference to wishlist
                 //get the id of the user
                 final String currUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
-                databaseRef.child(currUser).setValue(wishListID);
+                System.out.println("Debug info:");
+                System.out.println(databaseRef);
+                databaseRef.child(currUser).push().setValue(wishListID);
                 //TODO check if food item with same id is already in the wish list
 
                 Toast.makeText(FoodProfileActivity.this, "Food added to wishlist", Toast.LENGTH_LONG).show();
 
-               // finish();
-        }
-
-
-
+            }
 
 
         });
