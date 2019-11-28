@@ -70,7 +70,10 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
 
                     holder.upVoteCount.setText(Integer.toString(review.getUpvoteCount().size() - review.getDownvoteCount().size()));
                     myDatabase.child(reviewId).setValue(review);
+                } else {
+                    review.getUpvoteCount().remove(currUser);
                 }
+
 
             }
         });
@@ -88,6 +91,8 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
 
                     holder.upVoteCount.setText(Integer.toString(review.getUpvoteCount().size() - review.getDownvoteCount().size()));
                     myDatabase.child(reviewId).setValue(review);
+                } else {
+                    review.getDownvoteCount().remove(currUser);
                 }
             }
         });
