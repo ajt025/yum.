@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.example.yum.models.Review;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -42,6 +43,9 @@ public class ComposeActivity extends AppCompatActivity {
     Review review;
     private Uri targetUri;
     private Bitmap bitmap;
+
+    final String currUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
