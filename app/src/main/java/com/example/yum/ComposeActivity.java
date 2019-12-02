@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -17,6 +18,7 @@ import android.widget.Toast;
 import com.example.yum.models.Review;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -38,11 +40,15 @@ public class ComposeActivity extends AppCompatActivity {
     private EditText etRestaurantName; // name of the restaurant
     private ImageView ivDisplay; // image of dish + handles intent to gallery
     private DatabaseReference myDatabase;
+    private Drawable defaultImage;
 
 
     Review review;
     private Uri targetUri;
     private Bitmap bitmap;
+
+    final String currUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +67,7 @@ public class ComposeActivity extends AppCompatActivity {
 
         myDatabase = FirebaseDatabase.getInstance().getReference().child("Reviews");
 
+
         // pick image of food
         ivDisplay.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,6 +76,7 @@ public class ComposeActivity extends AppCompatActivity {
                 .Media.EXTERNAL_CONTENT_URI);
 
                 startActivityForResult(i, 0);
+                defaultImage = ivDisplay.getDrawable();
             }
 
         });
@@ -79,13 +87,30 @@ public class ComposeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                // TODO impose null checks on edittexts to ensure you're not sending empty strings
-                String dish = etDishName.getText().toString();
-                String title = etTitle.getText().toString();
-                int rating = sbRating.getProgress() + 1;
-                String description = etReviewBody.getText().toString();
-                String restaurant = etRestaurantName.getText().toString(); // TODO eventually use google places + ID?
-                String id = myDatabase.push().getKey();
+                // Includes null argument checks
+                if (etDishName.getText().toString().trim().length() <= 0) {
+                    Toast.makeText(ComposeActivity.this, "Please include dish name", Toast.LENGTH_LONG).show();
+                } else if (etRestaurantName.getText().toString().trim().length() <= 0) {
+                    Toast.makeText(ComposeActivity.this, "Please include restaurant name", Toast.LENGTH_LONG).show();
+                } else if (etTitle.getText().toString().trim().length() <= 0) {
+                    Toast.makeText(ComposeActivity.this, "Please include review title", Toast.LENGTH_LONG).show();
+                } else if (etReviewBody.getText().toString().trim().length() <= 0) {
+                    Toast.makeText(ComposeActivity.this, "Please include review body", Toast.LENGTH_LONG).show();
+                } else if (defaultImage == null || defaultImage == ivDisplay.getDrawable()) {
+                    Toast.makeText(ComposeActivity.this, "Please include image", Toast.LENGTH_LONG).show();
+                }
+                else {
+
+                    String dish = etDishName.getText().toString();
+                    String title = etTitle.getText().toString();
+                    int rating = sbRating.getProgress() + 1;
+                    String description = etReviewBody.getText().toString();
+                    String restaurant = etRestaurantName.getText().toString(); // TODO eventually use google places + ID?
+                    String id = myDatabase.push().getKey();
+
+                    //constructing data object here
+                    review = new Review();
+
 
                 //constructing data object here
                 review = new Review();
@@ -105,19 +130,21 @@ public class ComposeActivity extends AppCompatActivity {
                 review.setDownvoteCount(downvote);
 
 
-                uploadPicture(id);
+                    uploadPicture(id);
 
-                // send it to firebase
-                myDatabase.child(id).setValue(review);
+                    // send it to firebase
+                    myDatabase.child(id).setValue(review);
 
-                Toast.makeText(ComposeActivity.this, "Review Submitted", Toast.LENGTH_LONG).show();
+                    Toast.makeText(ComposeActivity.this, "Review Submitted", Toast.LENGTH_LONG).show();
 
-                final Intent intent = new Intent(ComposeActivity.this,
-                        HomeActivity.class);
+                    final Intent intent = new Intent(ComposeActivity.this,
+                            HomeActivity.class);
 
-                startActivity(intent);
 
-                finish();
+                    startActivity(intent);
+
+                    finish();
+                }
             }
         });
     }
@@ -134,6 +161,7 @@ public class ComposeActivity extends AppCompatActivity {
             try {
                 bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(targetUri));
                 ivDisplay.setImageBitmap(bitmap);
+
             } catch (FileNotFoundException e){
                 e.printStackTrace();
             }

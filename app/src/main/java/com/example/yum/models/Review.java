@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class Review {
     public String reviewId;
-    public int userId;
+    public Long userId;
     public int foodId;
     public String restaurant;
     public String imgPath;
@@ -27,11 +27,11 @@ public class Review {
         this.reviewId = reviewId;
     }
 
-    public int getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 
