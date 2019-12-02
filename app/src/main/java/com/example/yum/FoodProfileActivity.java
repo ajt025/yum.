@@ -46,7 +46,8 @@ public class FoodProfileActivity extends AppCompatActivity {
     String foodName;
     ReviewAdapter reviewAdapter;
     Button wishlistBtn;
-    final String dataPath = "Wishlist";
+    Button favoriteBtn;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,8 +66,29 @@ public class FoodProfileActivity extends AppCompatActivity {
                 tvFood = findViewById(R.id.profileFoodName);
                 tvRestaurant = findViewById(R.id.profileRestaurantName);
                 final String wishListID = tvFood.getText().toString() + "_" + tvRestaurant.getText().toString();
-                databaseRef = FirebaseDatabase.getInstance().getReference(dataPath).child(currUser);
+                databaseRef = FirebaseDatabase.getInstance().getReference("Wishlist").child(currUser);
                 databaseRef.child(wishListID).setValue(1); // the 1 value is a dummy value
+
+            }
+
+
+        });
+
+        // Favorite button
+        // TODO center favorite/wishlist buttons
+        favoriteBtn = findViewById(R.id.btnFavorite);
+        favoriteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                //get the id of the user
+                final String currUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                // for some reason, we have to define this again or it reverts back to "Review"
+                tvFood = findViewById(R.id.profileFoodName);
+                tvRestaurant = findViewById(R.id.profileRestaurantName);
+                final String favoriteID = tvFood.getText().toString() + "_" + tvRestaurant.getText().toString();
+                databaseRef = FirebaseDatabase.getInstance().getReference("Favorites").child(currUser);
+                databaseRef.child(favoriteID).setValue(1); // the 1 value is a dummy value
 
             }
 

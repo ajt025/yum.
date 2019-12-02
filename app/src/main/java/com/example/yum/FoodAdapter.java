@@ -30,7 +30,6 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> {
     // pass in reviews into the constructor for RV
     public FoodAdapter(List<Food> foods) {
         mFoods = foods;
-        //context = mcontext;
     }
 
     @NonNull

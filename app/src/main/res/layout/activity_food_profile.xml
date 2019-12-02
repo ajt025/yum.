@@ -7,6 +7,31 @@
     android:layout_height="match_parent"
     tools:context=".FoodProfileActivity">
 
+
+    <Button
+        android:id="@+id/btnFavorite"
+        style="@style/buttonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="52dp"
+        android:text="Favorite"
+        app:layout_constraintEnd_toStartOf="@+id/btnWishlist"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/ivPic"
+        app:layout_constraintTop_toBottomOf="@+id/profileFoodName" />
+
+
+    <Button
+        android:id="@+id/btnWishlist"
+        style="@style/buttonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="76dp"
+        android:layout_marginTop="52dp"
+        android:text="Wishlist"
+        app:layout_constraintStart_toStartOf="@+id/ivPic"
+        app:layout_constraintTop_toBottomOf="@+id/profileFoodName" />
+
     <ImageView
         android:id="@+id/ivPic"
         android:layout_width="150dp"
@@ -27,17 +52,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnWishlist" />
 
-    <Button
-        android:id="@+id/btnWishlist"
-        style="@style/buttonStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
-        android:text="Wishlist"
-        app:layout_constraintEnd_toEndOf="@+id/ivPic"
-        app:layout_constraintHorizontal_bias="0.483"
-        app:layout_constraintStart_toStartOf="@+id/ivPic"
-        app:layout_constraintTop_toBottomOf="@+id/profileFoodName" />
+
 
     <TextView
         android:id="@+id/profileFoodName"
