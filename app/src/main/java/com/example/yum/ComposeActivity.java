@@ -26,6 +26,8 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.HashSet;
 
 
 public class ComposeActivity extends AppCompatActivity {
@@ -39,6 +41,7 @@ public class ComposeActivity extends AppCompatActivity {
     private ImageView ivDisplay; // image of dish + handles intent to gallery
     private DatabaseReference myDatabase;
     private Drawable defaultImage;
+
 
     Review review;
     private Uri targetUri;
@@ -108,13 +111,23 @@ public class ComposeActivity extends AppCompatActivity {
                     //constructing data object here
                     review = new Review();
 
-                    review.setFood(dish);
-                    review.setReviewTitle(title);
-                    review.setReviewBody(description);
-                    review.setRating(sbRating.getProgress() + 1);
-                    review.setReviewId(id);
-                    review.setUpvoteCount(0);
-                    review.setDownvoteCount(0);
+
+                //constructing data object here
+                review = new Review();
+                review.setFood(dish);
+                review.setReviewTitle(title);
+                review.setReviewBody(description);
+                review.setRating(rating);
+
+                review.setReviewId(id);
+
+                review.setRestaurant(restaurant);
+                ArrayList<String> upvote = new ArrayList<String>();
+                ArrayList<String> downvote = new ArrayList<String>();
+                upvote.add("0");
+                downvote.add("0");
+                review.setUpvoteCount(upvote);
+                review.setDownvoteCount(downvote);
 
 
                     uploadPicture(id);
@@ -148,6 +161,7 @@ public class ComposeActivity extends AppCompatActivity {
             try {
                 bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(targetUri));
                 ivDisplay.setImageBitmap(bitmap);
+
             } catch (FileNotFoundException e){
                 e.printStackTrace();
             }

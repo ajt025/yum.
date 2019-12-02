@@ -3,13 +3,20 @@ package com.example.yum.fragments;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CompoundButton;
+
+import android.widget.ImageView;
+
 import android.widget.EditText;
+
 import android.widget.Switch;
 import android.widget.Toast;
 
@@ -23,6 +30,10 @@ import com.example.yum.LoginActivity;
 import com.example.yum.R;
 import com.example.yum.models.Review;
 import com.example.yum.models.Settings;
+
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -32,10 +43,20 @@ import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
+
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
+
+import java.io.FileNotFoundException;
+
+import static android.app.Activity.RESULT_OK;
 
 public class ProfileFragment extends Fragment {
 
@@ -47,8 +68,15 @@ public class ProfileFragment extends Fragment {
     private Switch switchVegetarian;
     private Switch switchVegan;
     private Switch switchLocation;
+    private ImageView profilePic;
+
+
+
+    private Uri targetUri;
+    private Bitmap bitmap;
 
     final FirebaseUser currUser = FirebaseAuth.getInstance().getCurrentUser();
+
     private DatabaseReference myDatabase;
     private Settings settings;
 
@@ -72,6 +100,13 @@ public class ProfileFragment extends Fragment {
         btnSignOut = view.findViewById(R.id.btnSignOut);
         btnWishlist = view.findViewById(R.id.btnWishlist);
         btnFavorites = view.findViewById(R.id.btnFavorites);
+
+        profilePic = view.findViewById(R.id.ivProfilePic);
+
+
+
+
+
         btnDeleteAcc = view.findViewById(R.id.btnDeleteAccount);
 
         btnSignOut.setOnClickListener(new View.OnClickListener() {
@@ -81,12 +116,44 @@ public class ProfileFragment extends Fragment {
             }
         });
 
+        profilePic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images
+                        .Media.EXTERNAL_CONTENT_URI);
+
+                startActivityForResult(i, 0);
+            }
+        });
+
         switchVegetarian = view.findViewById(R.id.switchVegetarian);
         switchVegan = view.findViewById(R.id.switchVegan);
         switchLocation = view.findViewById(R.id.switchLocation);
 
+        myDatabase = FirebaseDatabase.getInstance().getReference().child("User Info");
+        final String currUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+
+        myDatabase.child(currUser).child("profileImgPath").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String imageURL = dataSnapshot.getValue().toString();
+                Picasso.get().load(imageURL).into(profilePic);
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+
+
+
+        settings = new Settings();
+
         myDatabase = FirebaseDatabase.getInstance().getReference().child("User Settings");
         settings = new Settings(); // TODO load in user settings from database
+
 
         btnWishlist.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -328,4 +395,64 @@ public class ProfileFragment extends Fragment {
         });
     }
 
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK) {
+            targetUri = data.getData();
+
+            try {
+                bitmap = BitmapFactory.decodeStream(context.getContentResolver().openInputStream(targetUri));
+                profilePic.setImageBitmap(bitmap);
+                String currentUserID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+                uploadPicture(currentUserID);
+
+            } catch (FileNotFoundException e){
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void uploadPicture(final String idToFind) {
+
+        // creating unique path for review
+        String path = "profileImages/";
+        String id = myDatabase.child(idToFind).getKey();
+        path += id;
+        path += ".jgp";
+
+        // pushing the image to storage and setting URL
+        final StorageReference riversRef = FirebaseStorage.getInstance().getReference()
+                .child(path);
+        riversRef.putFile(targetUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                riversRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+
+                        // setting download URL here
+                        myDatabase.child(idToFind).child("profileImgPath").
+                                setValue(uri.toString());
+
+
+                    }
+                });
+            }
+        });
+
+
+
+
+
+
+    }
+
+
+
+    }
+
 }
+

@@ -20,11 +20,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.yum.ComposeActivity;
 import com.example.yum.FoodAdapter;
 import com.example.yum.R;
+import com.example.yum.ReviewAdapter;
 import com.example.yum.models.Food;
 import com.example.yum.models.Review;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -39,15 +42,13 @@ public class ExploreFragment extends Fragment {
     private TextView tvFilters;
     private ConstraintLayout clOptions;
     private EditText searchBar;
+    private HashSet<String> set;
 
     private RecyclerView rvFoods;
     private ArrayList<Food> foods;
     private FoodAdapter foodAdapter;
 
     private DatabaseReference databaseRef;
-
-
-
 
 
     // The onCreateView method is called when Fragment should create its View object hierarchy.
@@ -69,6 +70,7 @@ public class ExploreFragment extends Fragment {
         rvFoods = view.findViewById(R.id.rvFood);
         searchBar = view.findViewById(R.id.searchBar);
 
+        set = new HashSet<>();
 
         btnCompose.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,7 +95,7 @@ public class ExploreFragment extends Fragment {
 
         // View setup + RV initialization
         foods = new ArrayList<>();
-        foodAdapter = new FoodAdapter(foods);
+        foodAdapter = new FoodAdapter(context, foods);
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
 
         rvFoods.setLayoutManager(layoutManager);
@@ -102,7 +104,7 @@ public class ExploreFragment extends Fragment {
 
         populateFoods(); // call to put reviews into RV
 
-        // TODO update this to be used for onTextListener and call function when enter is pressed
+        // this to be used for onTextListener and call function when enter is pressed
         searchBar.setOnKeyListener((new View.OnKeyListener() {
 
             @Override
@@ -110,10 +112,15 @@ public class ExploreFragment extends Fragment {
                 if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
                         (keyCode == KeyEvent.KEYCODE_ENTER)) {
 
-                    System.out.println("FSF");
-                    final String searchedWord = searchBar.getText().toString();
+                    // this clears the foodAdapter and recyclerView
+                    ArrayList<Food> myFoods = new ArrayList<>();
+                    foodAdapter.updateData(myFoods);
+                    rvFoods.setAdapter(null);
 
-                    final ArrayList<String> food = new ArrayList<String>();
+                    foods.clear();
+                    set.clear();
+
+                    final String searchedWord = searchBar.getText().toString();
                     final ArrayList<String> URLs = new ArrayList<String>();
 
                     FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -123,14 +130,33 @@ public class ExploreFragment extends Fragment {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
+
+
                             for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
                                 Review currFood = snapshot.getValue(Review.class);
                                 if (currFood.getFood().contains(searchedWord)) {
-                                    food.add(currFood.food);
-                                    URLs.add(currFood.getImgPath());
-                                }
 
+                                    Food myFood = new Food();
+                                    myFood.setName(currFood.getFood());
+                                    myFood.setImgPath(currFood.getImgPath());
+
+                                    String foodName = myFood.getName().toLowerCase();
+                                    foodName += currFood.getRestaurant().toLowerCase();
+
+
+                                    if (set.contains(foodName) == false) {
+                                        set.add(foodName);
+                                        foods.add(myFood);
+                                    }
+
+
+                                }
                             }
+
+
+                            foodAdapter = new FoodAdapter(context, foods);
+                            rvFoods.setAdapter(foodAdapter);
+
                         }
 
                         @Override
@@ -138,7 +164,6 @@ public class ExploreFragment extends Fragment {
 
                         }
                     });
-
                     return true;
                 }
                 return false;
@@ -151,13 +176,50 @@ public class ExploreFragment extends Fragment {
 
     // HELPER METHODS
     private void populateFoods() {
-        /*
-         * TODO remove this, just test code. Here is where you would make database calls and retrieve reviews
-         */
-        for (int i = 0; i < 10; ++i) {
-            foods.add(new Food()); // alternate b/t dare and share
-            foodAdapter.notifyItemInserted(foods.size() - 1); // tells rv to check for updates
-        }
+
+        foods.clear();
+        set.clear();
+
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        databaseRef = database.getReference().child("Reviews");
+
+        databaseRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                if (dataSnapshot.exists()) {
+
+                    int total = 0;
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+
+                        total++;
+                        Review currFood = snapshot.getValue(Review.class);
+                        Food myFood = new Food();
+                        myFood.setName(currFood.getFood());
+                        myFood.setImgPath(currFood.getImgPath());
+
+                        String foodName = myFood.getName().toLowerCase();
+                        foodName += currFood.getRestaurant().toLowerCase();
+
+
+                        if (set.contains(foodName) == false && total < 10) {
+                            set.add(foodName);
+                            foods.add(myFood);
+                        }
+
+                    }
+
+                    foodAdapter = new FoodAdapter(context, foods);
+                    rvFoods.setAdapter(foodAdapter);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
     }
 
 

@@ -2,19 +2,21 @@ package com.example.yum.models;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import java.util.ArrayList;
 
 public class Review {
     public String reviewId;
     public String userId;
     public int foodId;
-    public int restaurantId;
+    public String restaurant;
     public String imgPath;
     public String reviewTitle;
     public String reviewBody;
     public String food;
-    public int upvoteCount;
-    public int downvoteCount;
+    public ArrayList<String> upvoteCount;
+    public ArrayList<String> downvoteCount;
     public double rating;
+
 
 
     public String getReviewId() {
@@ -49,12 +51,12 @@ public class Review {
         this.foodId = foodId;
     }
 
-    public int getRestaurantId() {
-        return restaurantId;
+    public String getRestaurant() {
+        return restaurant;
     }
 
-    public void setRestaurantId(int restaurantId) {
-        this.restaurantId = restaurantId;
+    public void setRestaurant(String restaurantId) {
+        this.restaurant = restaurantId;
     }
 
     public String getImgPath() {
@@ -73,19 +75,19 @@ public class Review {
         this.reviewBody = reviewBody;
     }
 
-    public int getUpvoteCount() {
+    public ArrayList<String> getUpvoteCount() {
         return upvoteCount;
     }
 
-    public void setUpvoteCount(int upvoteCount) {
+    public void setUpvoteCount(ArrayList<String> upvoteCount) {
         this.upvoteCount = upvoteCount;
     }
 
-    public int getDownvoteCount() {
+    public ArrayList<String> getDownvoteCount() {
         return downvoteCount;
     }
 
-    public void setDownvoteCount(int downvoteCount) {
+    public void setDownvoteCount(ArrayList<String> downvoteCount) {
         this.downvoteCount = downvoteCount;
     }
 
