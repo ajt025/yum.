@@ -183,7 +183,7 @@ public class ProfileFragment extends Fragment {
         // TODO implement state persistence --> upon profile screen load, check if switches are
         // already set and reflect accordingly
 
-        final String currUserId = currUser.getUid();
+        final String currUserId = currUser;
 
         switchVegetarian.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -454,5 +454,5 @@ public class ProfileFragment extends Fragment {
 
     }
 
-}
+
 
