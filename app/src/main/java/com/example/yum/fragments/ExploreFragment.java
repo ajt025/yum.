@@ -63,6 +63,7 @@ public class ExploreFragment extends Fragment {
     // Any view setup should occur here.  E.g., view lookups and attaching view listeners.
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
+
         btnCompose = view.findViewById(R.id.fabCompose);
 //        btnFoodProfile = view.findViewById(R.id.btnFoodProfile);
         tvFilters = view.findViewById(R.id.tvFilters);
@@ -95,7 +96,7 @@ public class ExploreFragment extends Fragment {
 
         // View setup + RV initialization
         foods = new ArrayList<>();
-        foodAdapter = new FoodAdapter(context, foods);
+        foodAdapter = new FoodAdapter( foods);
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
 
         rvFoods.setLayoutManager(layoutManager);
@@ -130,13 +131,10 @@ public class ExploreFragment extends Fragment {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-
-
                             for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
                                 Review currFood = snapshot.getValue(Review.class);
 
                                 if (currFood.getFood().toLowerCase().contains(searchedWord.toLowerCase())) {
-
 
                                     Food myFood = new Food();
                                     myFood.setName(currFood.getFood());
@@ -150,15 +148,10 @@ public class ExploreFragment extends Fragment {
                                         set.add(foodName);
                                         foods.add(myFood);
                                     }
-
-
                                 }
                             }
-
-
-                            foodAdapter = new FoodAdapter(context, foods);
+                            foodAdapter = new FoodAdapter(foods);
                             rvFoods.setAdapter(foodAdapter);
-
                         }
 
                         @Override
@@ -208,10 +201,9 @@ public class ExploreFragment extends Fragment {
                             set.add(foodName);
                             foods.add(myFood);
                         }
-
                     }
 
-                    foodAdapter = new FoodAdapter(context, foods);
+                    foodAdapter = new FoodAdapter(foods);
                     rvFoods.setAdapter(foodAdapter);
                 }
             }

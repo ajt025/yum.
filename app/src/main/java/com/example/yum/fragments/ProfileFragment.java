@@ -32,6 +32,7 @@ public class ProfileFragment extends Fragment {
 
     private DatabaseReference myDatabase;
     private Settings settings;
+    private final String dataPath = "User Settings";
 
     private final int FAVORITE = 0, WISHLIST = 1;
 
@@ -72,7 +73,7 @@ public class ProfileFragment extends Fragment {
         switchLocation = view.findViewById(R.id.switchLocation);
 
         // Get database reference to send
-        myDatabase = FirebaseDatabase.getInstance().getReference().child("User Info");
+        myDatabase = FirebaseDatabase.getInstance().getReference().child(dataPath);
         final String currUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
         settings = new Settings();
 
