@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import android.util.Log;
 
 import com.example.yum.models.Food;
 import com.example.yum.models.Restaurant;
@@ -23,25 +24,29 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.database.Query;
+
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
+
 public class FoodProfileActivity extends AppCompatActivity {
 
+    // Fields
     RecyclerView rvReviews;
     //RestaurantAdapter restaurantAdapter;
     ArrayList<Restaurant> restaurants;
     ArrayList<Review> reviews;
-    private DatabaseReference databaseRef;
+    //private DatabaseReference databaseRef;
+    protected DatabaseReference databaseRef;
     private TextView tvFood;
     private TextView tvRestaurant;
     String imageURL;
     String foodName;
-    String wishListItem;
     ReviewAdapter reviewAdapter;
     Button wishlistBtn;
-
+    Button favoriteBtn;
 
 
     @Override
@@ -49,37 +54,49 @@ public class FoodProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_food_profile);
 
-        databaseRef = FirebaseDatabase.getInstance().getReference().child("Wishlist");
-
-        tvFood = findViewById(R.id.profileFoodName);
-        tvRestaurant = findViewById(R.id.profileRestaurantName);
-        final String wishListID = tvFood.getText().toString() + "_" + tvRestaurant.getText().toString();
-
-        // Wishlist functinoality
+        // Wishlist button
         wishlistBtn = findViewById(R.id.btnWishlist);
         wishlistBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 //get the id of the user
                 final String currUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                // for some reason, we have to define this again or it reverts back to "Review"
+                tvFood = findViewById(R.id.profileFoodName);
+                tvRestaurant = findViewById(R.id.profileRestaurantName);
+                final String wishListID = tvFood.getText().toString() + "_" + tvRestaurant.getText().toString();
+                databaseRef = FirebaseDatabase.getInstance().getReference("Wishlist").child(currUser);
+                databaseRef.child(wishListID).setValue(1); // the 1 value is a dummy value
 
-                databaseRef.child(currUser).setValue(wishListID);
-                //TODO check if food item with same id is already in the wish list
-
-                Toast.makeText(FoodProfileActivity.this, "Food added to wishlist", Toast.LENGTH_LONG).show();
-
-               // finish();
-        }
+            }
 
 
+        });
 
+        // Favorite button
+        // TODO center favorite/wishlist buttons
+        favoriteBtn = findViewById(R.id.btnFavorite);
+        favoriteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                //get the id of the user
+                final String currUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                // for some reason, we have to define this again or it reverts back to "Review"
+                tvFood = findViewById(R.id.profileFoodName);
+                tvRestaurant = findViewById(R.id.profileRestaurantName);
+                final String favoriteID = tvFood.getText().toString() + "_" + tvRestaurant.getText().toString();
+                databaseRef = FirebaseDatabase.getInstance().getReference("Favorites").child(currUser);
+                databaseRef.child(favoriteID).setValue(1); // the 1 value is a dummy value
+
+            }
 
 
         });
 
         reviews = new ArrayList<>();
         restaurants = new ArrayList<>();
-
 
         // View setup + RV initialization
 
@@ -91,7 +108,6 @@ public class FoodProfileActivity extends AppCompatActivity {
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
 
-
         //rvRestaurants.setLayoutManager(layoutManager);
         rvReviews.setLayoutManager(layoutManager);
         //rvRestaurants.setAdapter(restaurantAdapter);
@@ -101,17 +117,11 @@ public class FoodProfileActivity extends AppCompatActivity {
         rvReviews.addItemDecoration(new DividerItemDecoration(this, layoutManager.getOrientation()));
 
         getIncomingIntent();
-
     }
 
-    // HELPER METHODS
-
-
-
+    /////////// HELPER METHODS ////////////
 
     private void populateReviews() {
-
-
         // search through firebase
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         databaseRef = database.getReference().child("Reviews");
@@ -121,50 +131,26 @@ public class FoodProfileActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
-
                     reviews.clear();
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-
-
                         Review currFood = snapshot.getValue(Review.class);
-
-
                         // matching food
                         if (currFood.getFood().compareToIgnoreCase(foodName) == 0) {
-
                             if (currFood != null) {
                                 addReview(currFood);
                             }
-                            //System.out.println(currFood.getFood());
-                            //System.out.println(currFood.getRestaurant());
-
                             TextView restaurantName = findViewById(R.id.profileRestaurantName);
                             restaurantName.setText(currFood.getRestaurant());
-
                         }
-
-                        System.out.println(reviews.size());
-
                     }
-
                     reviewAdapter = new ReviewAdapter(reviews);
                     rvReviews.setAdapter(reviewAdapter);
-
-
                 }
             }
-
-
-
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
             }
         });
-
-
-
     }
 
 
@@ -176,8 +162,6 @@ public class FoodProfileActivity extends AppCompatActivity {
             setImage(imageURL, foodName);
 
             populateReviews(); // call to put reviews into RV
-
-
         }
     }
 

@@ -70,7 +70,6 @@ public class LoginActivity extends AppCompatActivity {
                 String email = etEmail.getText().toString();
                 String password = etPassword.getText().toString();
 
-
                 if (email.isEmpty() || password.isEmpty()) {
                     Toast.makeText(context, "Username and Password cannot be empty", Toast.LENGTH_SHORT).show();
                     return;
@@ -97,9 +96,6 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-
-
     }
 
 

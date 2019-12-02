@@ -79,6 +79,7 @@ public class ProfileFragment extends Fragment {
 
     private DatabaseReference myDatabase;
     private Settings settings;
+    private final String dataPath = "User Settings";
 
     private final int FAVORITE = 0, WISHLIST = 1;
 
@@ -96,10 +97,12 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
 
-
+        // Get buttons
         btnSignOut = view.findViewById(R.id.btnSignOut);
         btnWishlist = view.findViewById(R.id.btnWishlist);
         btnFavorites = view.findViewById(R.id.btnFavorites);
+
+        // Define functionality for sign out button
 
         profilePic = view.findViewById(R.id.ivProfilePic);
 
@@ -126,11 +129,17 @@ public class ProfileFragment extends Fragment {
             }
         });
 
+        // Get settings switches
         switchVegetarian = view.findViewById(R.id.switchVegetarian);
         switchVegan = view.findViewById(R.id.switchVegan);
         switchLocation = view.findViewById(R.id.switchLocation);
 
-        myDatabase = FirebaseDatabase.getInstance().getReference().child("User Info");
+
+        // Get database reference to send
+        myDatabase = FirebaseDatabase.getInstance().getReference().child(dataPath);
+
+        //myDatabase = FirebaseDatabase.getInstance().getReference().child("User Info");
+
         final String currUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
 
@@ -183,7 +192,11 @@ public class ProfileFragment extends Fragment {
         // TODO implement state persistence --> upon profile screen load, check if switches are
         // already set and reflect accordingly
 
+
+        // Update database to reflect change of vegetarian setting
+
         final String currUserId = currUser;
+
 
         switchVegetarian.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -200,6 +213,7 @@ public class ProfileFragment extends Fragment {
             }
         });
 
+        // Update database to reflect change of vegan setting
         switchVegan.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
@@ -214,6 +228,7 @@ public class ProfileFragment extends Fragment {
             }
         });
 
+        // Update database to reflect change of Location setting
         switchLocation.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
