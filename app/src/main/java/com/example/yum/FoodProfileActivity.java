@@ -68,6 +68,8 @@ public class FoodProfileActivity extends AppCompatActivity {
                 final String wishListID = tvFood.getText().toString() + "_" + tvRestaurant.getText().toString();
                 databaseRef = FirebaseDatabase.getInstance().getReference("Wishlist").child(currUser);
                 databaseRef.child(wishListID).setValue(1); // the 1 value is a dummy value
+                Toast.makeText(FoodProfileActivity.this, "Added to Wishlist",
+                        Toast.LENGTH_LONG).show();
 
             }
 
@@ -89,6 +91,8 @@ public class FoodProfileActivity extends AppCompatActivity {
                 final String favoriteID = tvFood.getText().toString() + "_" + tvRestaurant.getText().toString();
                 databaseRef = FirebaseDatabase.getInstance().getReference("Favorites").child(currUser);
                 databaseRef.child(favoriteID).setValue(1); // the 1 value is a dummy value
+                Toast.makeText(FoodProfileActivity.this, "Added to Favorite",
+                        Toast.LENGTH_LONG).show();
 
             }
 

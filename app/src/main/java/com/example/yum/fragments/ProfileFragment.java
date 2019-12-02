@@ -142,12 +142,18 @@ public class ProfileFragment extends Fragment {
 
         final String currUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
+        DatabaseReference childImg = myDatabase.child(currUser).child("profileImgPath");
 
-        myDatabase.child(currUser).child("profileImgPath").addValueEventListener(new ValueEventListener() {
+
+        childImg.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                String imageURL = dataSnapshot.getValue().toString();
-                Picasso.get().load(imageURL).into(profilePic);
+
+                String imageURL = dataSnapshot.getValue(String.class);
+                if (imageURL != null) {
+                    Picasso.get().load(imageURL).into(profilePic);
+                }
+
 
             }
 
