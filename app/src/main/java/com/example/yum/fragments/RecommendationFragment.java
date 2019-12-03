@@ -17,6 +17,8 @@ import com.example.yum.RecAdapter;
 import com.example.yum.models.Review;
 
 import java.util.ArrayList;
+import java.util.Random;
+
 /*
 * This fragment will recommend users new foods and display
 * them based off the wishlist and favorite list of
@@ -25,14 +27,18 @@ import java.util.ArrayList;
 public class RecommendationFragment extends Fragment {
 
     Context context;
+
     RecyclerView rvRecs;
     RecAdapter recAdapter;
     ArrayList<Pair<Review, Integer>> recs;
+
+    Random random;
 
     // The onCreateView method is called when Fragment should create its View object hierarchy.
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         context = parent.getContext();
+        random = new Random();
 
         // Defines the xml file for the fragment
         return inflater.inflate(R.layout.fragment_recommendations, parent, false);
@@ -61,8 +67,13 @@ public class RecommendationFragment extends Fragment {
          * TODO remove this, just test code. Here is where you would make database calls and retrieve reviews
          */
         for (int i = 0; i < 10; ++i) {
-            recs.add(new Pair<Review, Integer>(new Review(), i % 2)); // alternate b/t dare and share
+            recs.add(new Pair<Review, Integer>(new Review(), getShareOrDare())); // alternate b/t dare and share
             recAdapter.notifyItemInserted(recs.size() - 1); // tells rv to check for updates
         }
+    }
+
+    // determine if next card will be a share (0) or a dare (1)
+    private int getShareOrDare() {
+        return random.nextInt(2); // 0 or 1
     }
 }
