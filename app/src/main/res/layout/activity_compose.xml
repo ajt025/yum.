@@ -13,18 +13,16 @@
         style="@style/textStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
-        android:layout_marginEnd="16dp"
-        android:background="@drawable/border_round"
         android:ems="10"
-        android:hint="Title"
+        android:hint="Title of Review"
         android:inputType="textShortMessage"
         android:selectAllOnFocus="false"
         android:visibility="visible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider10" />
+        app:layout_constraintBottom_toBottomOf="@+id/logoTitle"
+        app:layout_constraintEnd_toEndOf="@+id/etRestaurant"
+        app:layout_constraintStart_toStartOf="@+id/etRestaurant"
+        app:layout_constraintTop_toBottomOf="@+id/divDetails" />
 
     <EditText
         android:id="@+id/etDish"
@@ -32,80 +30,64 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:background="@drawable/border_round"
         android:ems="10"
         android:hint="Dish Name"
         android:inputType="textShortMessage"
         android:selectAllOnFocus="false"
         android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@+id/logoDish"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider8" />
+        app:layout_constraintStart_toEndOf="@+id/logoDish"
+        app:layout_constraintTop_toTopOf="@+id/logoDish" />
 
     <EditText
         android:id="@+id/etRestaurant"
         style="@style/textStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:background="@drawable/border_round"
         android:ems="10"
         android:hint="Restaurant"
         android:inputType="textShortMessage"
         android:selectAllOnFocus="false"
         android:visibility="visible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etDish" />
-
-    <SeekBar
-        android:id="@+id/sbRating"
-        style="@style/Widget.AppCompat.SeekBar.Discrete"
-        android:layout_width="0dp"
-        android:layout_height="20dp"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/border_round"
-        android:inputType="none"
-        android:max="4"
-        android:progress="3"
-        android:progressTint="@color/queenBlue"
-        app:layout_constraintEnd_toEndOf="@+id/etTitle"
-        app:layout_constraintStart_toStartOf="@+id/etTitle"
-        app:layout_constraintTop_toBottomOf="@+id/etTitle" />
+        app:layout_constraintBottom_toBottomOf="@+id/logoRestaurant"
+        app:layout_constraintEnd_toEndOf="@+id/etDish"
+        app:layout_constraintStart_toStartOf="@+id/etDish"
+        app:layout_constraintTop_toTopOf="@+id/logoRestaurant" />
 
     <EditText
         android:id="@+id/etReviewBody"
         style="@style/textStyle"
         android:layout_width="0dp"
         android:layout_height="150dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
         android:background="@drawable/border_round"
         android:ems="10"
         android:gravity="bottom"
         android:hint="Description"
         android:inputType="textLongMessage|textMultiLine"
-        app:layout_constraintEnd_toEndOf="@+id/etTitle"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/etTitle"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvRating" />
 
     <TextView
         android:id="@+id/tvRating"
+        style="@style/textStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Rating"
+        android:text="5 out of 5 stars"
         android:textColor="@color/outerSpace"
-        app:layout_constraintEnd_toEndOf="@+id/sbRating"
-        app:layout_constraintStart_toStartOf="@+id/sbRating"
-        app:layout_constraintTop_toBottomOf="@+id/sbRating" />
+        app:layout_constraintEnd_toEndOf="@+id/rbRating"
+        app:layout_constraintStart_toStartOf="@+id/rbRating"
+        app:layout_constraintTop_toBottomOf="@+id/rbRating" />
 
     <TextView
-        android:id="@+id/textView8"
+        android:id="@+id/tvHeader"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -118,35 +100,35 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <View
-        android:id="@+id/divider8"
+        android:id="@+id/divHeader"
         android:layout_width="0dp"
         android:layout_height="2dp"
         android:layout_marginTop="8dp"
         android:background="@color/outerSpace"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView8" />
+        app:layout_constraintTop_toBottomOf="@+id/tvHeader" />
 
     <View
-        android:id="@+id/divider10"
+        android:id="@+id/divDetails"
         android:layout_width="0dp"
         android:layout_height="2dp"
         android:layout_marginTop="16dp"
-        android:background="?attr/dividerHorizontal"
+        android:background="@color/outerSpace"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etRestaurant" />
 
     <ImageView
         android:id="@+id/ivDisplay"
-        android:layout_width="252dp"
-        android:layout_height="183dp"
-        android:layout_marginEnd="16dp"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@android:color/background_dark" />
+        app:layout_constraintTop_toBottomOf="@+id/etReviewBody"
+        app:srcCompat="@drawable/ic_upload_outline" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabSubmit"
@@ -160,4 +142,51 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/ic_check_24px" />
+
+    <ImageView
+        android:id="@+id/logoRestaurant"
+        style="@style/iconStyle"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintStart_toStartOf="@+id/logoDish"
+        app:layout_constraintTop_toBottomOf="@+id/logoDish"
+        app:srcCompat="@drawable/ic_room_24px" />
+
+    <ImageView
+        android:id="@+id/logoDish"
+        style="@style/iconStyle"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/divHeader"
+        app:srcCompat="@drawable/ic_restaurant_24px" />
+
+    <ImageView
+        android:id="@+id/logoTitle"
+        style="@style/iconStyle"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintStart_toStartOf="@+id/logoRestaurant"
+        app:layout_constraintTop_toBottomOf="@+id/divDetails"
+        app:srcCompat="@drawable/ic_title_24px" />
+
+    <RatingBar
+        android:id="@+id/rbRating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:alpha="0.8"
+        android:max="5"
+        android:numStars="5"
+        android:progress="5"
+        android:progressTint="@color/queenBlue"
+        android:rating="5"
+        android:stepSize="1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etTitle" />
 </androidx.constraintlayout.widget.ConstraintLayout>

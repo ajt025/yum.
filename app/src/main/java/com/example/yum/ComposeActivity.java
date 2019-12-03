@@ -11,8 +11,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RatingBar;
 import android.widget.SeekBar;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.yum.models.Review;
@@ -34,7 +36,8 @@ public class ComposeActivity extends AppCompatActivity {
 
     private FloatingActionButton fabSubmit; // completes review + submits
     private EditText etDishName; // name of the dish
-    private SeekBar sbRating; // rating of the dish
+    private RatingBar rbRating; // rating of the dish
+    private TextView tvRating; // numerical rating of the dish
     private EditText etTitle; // title of review
     private EditText etReviewBody; // review description
     private EditText etRestaurantName; // name of the restaurant
@@ -60,7 +63,8 @@ public class ComposeActivity extends AppCompatActivity {
         etDishName = findViewById(R.id.etDish);
         fabSubmit = findViewById(R.id.fabSubmit);
         etDishName = findViewById(R.id.etDish);
-        sbRating = findViewById(R.id.sbRating);
+        rbRating = findViewById(R.id.rbRating);
+        tvRating = findViewById(R.id.tvRating);
         etRestaurantName = findViewById(R.id.etRestaurant);
         etReviewBody = findViewById(R.id.etReviewBody);
         ivDisplay = findViewById(R.id.ivDisplay);
@@ -81,6 +85,14 @@ public class ComposeActivity extends AppCompatActivity {
 
         });
 
+        // visual update for review
+        rbRating.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
+                String currRating = ((int) v) + " out of 5 stars";
+                tvRating.setText(currRating);
+            }
+        });
 
         // Submitting data to firebase
         fabSubmit.setOnClickListener(new View.OnClickListener() {
@@ -103,32 +115,30 @@ public class ComposeActivity extends AppCompatActivity {
 
                     String dish = etDishName.getText().toString();
                     String title = etTitle.getText().toString();
-                    int rating = sbRating.getProgress() + 1;
+                    int rating = rbRating.getNumStars();
                     String description = etReviewBody.getText().toString();
                     String restaurant = etRestaurantName.getText().toString(); // TODO eventually use google places + ID?
                     String id = myDatabase.push().getKey();
 
                     //constructing data object here
                     review = new Review();
+                    review.setFood(dish);
+                    review.setReviewTitle(title);
+                    review.setReviewBody(description);
+                    review.setRating(rating);
 
+                    review.setReviewId(id);
 
-                //constructing data object here
-                review = new Review();
-                review.setFood(dish);
-                review.setReviewTitle(title);
-                review.setReviewBody(description);
-                review.setRating(rating);
+                    review.setRestaurant(restaurant);
 
-                review.setReviewId(id);
+                    ArrayList<String> upvote = new ArrayList<String>();
+                    ArrayList<String> downvote = new ArrayList<String>();
 
-                review.setRestaurant(restaurant);
-                ArrayList<String> upvote = new ArrayList<String>();
-                ArrayList<String> downvote = new ArrayList<String>();
-                upvote.add("0");
-                downvote.add("0");
-                review.setUpvoteCount(upvote);
-                review.setDownvoteCount(downvote);
+                    upvote.add("0");
+                    downvote.add("0");
 
+                    review.setUpvoteCount(upvote);
+                    review.setDownvoteCount(downvote);
 
                     uploadPicture(id);
 
@@ -140,9 +150,7 @@ public class ComposeActivity extends AppCompatActivity {
                     final Intent intent = new Intent(ComposeActivity.this,
                             HomeActivity.class);
 
-
                     startActivity(intent);
-
                     finish();
                 }
             }
