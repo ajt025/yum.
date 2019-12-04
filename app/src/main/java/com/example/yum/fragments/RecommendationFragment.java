@@ -2,15 +2,11 @@ package com.example.yum.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.yum.R;
@@ -24,7 +20,6 @@ import com.yuyakaido.android.cardstackview.Direction;
 import com.yuyakaido.android.cardstackview.StackFrom;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 
 /*
@@ -46,13 +41,10 @@ public class RecommendationFragment extends Fragment implements CardStackListene
     ArrayList<Review> shareList;
     ArrayList<Review> dareList;
 
-    Random random;
-
     // The onCreateView method is called when Fragment should create its View object hierarchy.
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         context = parent.getContext();
-        random = new Random();
 
         // Defines the xml file for the fragment
         return inflater.inflate(R.layout.fragment_recommendations, parent, false);
@@ -157,27 +149,22 @@ public class RecommendationFragment extends Fragment implements CardStackListene
         /*
          * TODO remove this, just test code. Here is where you would make database calls and retrieve reviews
          */
-        for (int i = 0; i < 10; ++i) {
-            recs.add(new Pair<Review, Integer>(new Review(), getShareOrDare())); // alternate b/t dare and share
-            recAdapter.notifyItemInserted(recs.size() - 1); // tells rv to check for updates
         for (int i = 0; i < 3; ++i) {
-            newReviews.add(new Review());
+            shareList.add(new Review()); // alternate b/t dare and share
+            shareAdapter.notifyItemInserted(shareList.size() - 1); // tells rv to check for updates
+
+            dareList.add(new Review());
+            dareAdapter.notifyItemInserted(dareList.size() - 1);
         }
 
-        // TODO get user's favorites
+            // TODO get user's favorites
 
-        // TODO parse user faves and extract tags from food names + extract restaurants reviewed
+            // TODO parse user faves and extract tags from food names + extract restaurants reviewed
 
-        // TODO re-query all reviews for food with those tags + user has not favorited/reviewed before
+            // TODO re-query all reviews for food with those tags + user has not favorited/reviewed before
 
-        // TODO populate those reviews into ArrayList to send back
+            // TODO populate those reviews into ArrayList to send back
 
         return newReviews;
     }
-
-    // determine if next card will be a share (0) or a dare (1)
-    private int getShareOrDare() {
-        return random.nextInt(2); // 0 or 1
-    }
-
 }
