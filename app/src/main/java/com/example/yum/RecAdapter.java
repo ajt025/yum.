@@ -11,17 +11,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.yum.models.Review;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class RecAdapter extends RecyclerView.Adapter<RecAdapter.ViewHolder> {
 
-    private List<Pair<Review, Integer>> mRecs;
+    private ArrayList<Review> mRecs;
     Context context;
 
-    private final int SHARE = 0, DARE = 1;
-
     // pass in reviews into the constructor for RV
-    public RecAdapter(List<Pair<Review, Integer>> recs) {
+    public RecAdapter(ArrayList<Review> recs) {
         mRecs = recs;
     }
 
@@ -33,18 +32,8 @@ public class RecAdapter extends RecyclerView.Adapter<RecAdapter.ViewHolder> {
         ViewHolder viewHolder;
         LayoutInflater inflater = LayoutInflater.from(context);
 
-        switch (viewType) {
-            case DARE:
-                View dareView = inflater.inflate(R.layout.item_dare, parent, false);
-                viewHolder = new ViewHolder(dareView);
-                break;
-
-            default:
-            case SHARE:
-                View shareView = inflater.inflate(R.layout.item_share, parent, false);
-                viewHolder = new ViewHolder(shareView);
-                break;
-        }
+        View dareView = inflater.inflate(R.layout.item_share_or_dare, parent, false);
+        viewHolder = new ViewHolder(dareView);
 
         return viewHolder;
     }
@@ -52,14 +41,9 @@ public class RecAdapter extends RecyclerView.Adapter<RecAdapter.ViewHolder> {
     // bind values based on the position of each element
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Pair<Review, Integer> review = mRecs.get(position);
+        Review review = mRecs.get(position);
 
         // TODO this is where you will load images/text/etc into the review RecyclerView
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-        return mRecs.get(position).second; // Returns either SHARE(0) or DARE(1) card type
     }
 
     @Override
