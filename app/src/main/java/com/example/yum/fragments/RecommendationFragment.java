@@ -2,22 +2,25 @@ package com.example.yum.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.yum.R;
 import com.example.yum.RecAdapter;
 import com.example.yum.models.Review;
+import com.google.android.material.tabs.TabLayout;
+import com.yuyakaido.android.cardstackview.CardStackLayoutManager;
+import com.yuyakaido.android.cardstackview.CardStackListener;
+import com.yuyakaido.android.cardstackview.CardStackView;
+import com.yuyakaido.android.cardstackview.Direction;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 /*
 * This fragment will recommend users new foods and display
@@ -28,17 +31,19 @@ public class RecommendationFragment extends Fragment {
 
     Context context;
 
-    RecyclerView rvRecs;
-    RecAdapter recAdapter;
-    ArrayList<Pair<Review, Integer>> recs;
+    TabLayout tabRec;
+    CardStackView csvShareDare;
+    TextView tvHeader;
 
-    Random random;
+    RecAdapter shareAdapter;
+    RecAdapter dareAdapter;
+    ArrayList<Review> shareList;
+    ArrayList<Review> dareList;
 
     // The onCreateView method is called when Fragment should create its View object hierarchy.
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         context = parent.getContext();
-        random = new Random();
 
         // Defines the xml file for the fragment
         return inflater.inflate(R.layout.fragment_recommendations, parent, false);
@@ -48,16 +53,80 @@ public class RecommendationFragment extends Fragment {
     // Any view setup should occur here.  E.g., view lookups and attaching view listeners.
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        // View setup + RV initialization
-        rvRecs = view.findViewById(R.id.rvRecs);
-        recs = new ArrayList<>();
-        recAdapter = new RecAdapter(recs);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(context);
+        // View setup + RV/CSV initialization
+        tabRec = view.findViewById(R.id.tabRec);
+        csvShareDare = view.findViewById(R.id.csvRec);
+        tvHeader = view.findViewById(R.id.tvHeader);
 
-        rvRecs.setLayoutManager(layoutManager);
-        rvRecs.setAdapter(recAdapter);
+        shareList = new ArrayList<>();
+        dareList = new ArrayList<>();
+        shareAdapter = new RecAdapter(shareList);
+        dareAdapter = new RecAdapter(dareList);
+
+        csvShareDare.setLayoutManager(new CardStackLayoutManager(context, this));
+        csvShareDare.setAdapter(shareAdapter); // default card list
+
+        // handle tab switching and which list to display in cards
+        tabRec.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                int position = tab.getPosition();
+
+                if (position == 0) { // share
+                    csvShareDare.setAdapter(shareAdapter);
+                    tvHeader.setText(R.string.share);
+                } else { // dare
+                    csvShareDare.setAdapter(dareAdapter);
+                    tvHeader.setText(R.string.dare);
+                }
+
+                csvShareDare.getAdapter().notifyDataSetChanged(); // update card stack
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
 
         populateReviews(); // call to put reviews into RV
+    }
+
+    // Swipe Listener Callbacks
+
+    @Override
+    public void onCardDragging(Direction direction, float ratio) {
+
+    }
+
+    @Override
+    public void onCardSwiped(Direction direction) {
+
+    }
+
+    @Override
+    public void onCardRewound() {
+
+    }
+
+    @Override
+    public void onCardCanceled() {
+
+    }
+
+    @Override
+    public void onCardAppeared(View view, int position) {
+
+    }
+
+    @Override
+    public void onCardDisappeared(View view, int position) {
+
     }
 
     // HELPER METHODS
@@ -66,14 +135,12 @@ public class RecommendationFragment extends Fragment {
         /*
          * TODO remove this, just test code. Here is where you would make database calls and retrieve reviews
          */
-        for (int i = 0; i < 10; ++i) {
-            recs.add(new Pair<Review, Integer>(new Review(), getShareOrDare())); // alternate b/t dare and share
-            recAdapter.notifyItemInserted(recs.size() - 1); // tells rv to check for updates
-        }
-    }
+        for (int i = 0; i < 3; ++i) {
+            shareList.add(new Review()); // alternate b/t dare and share
+            shareAdapter.notifyItemInserted(shareList.size() - 1); // tells rv to check for updates
 
-    // determine if next card will be a share (0) or a dare (1)
-    private int getShareOrDare() {
-        return random.nextInt(2); // 0 or 1
+            dareList.add(new Review());
+            dareAdapter.notifyItemInserted(dareList.size() - 1);
+        }
     }
 }
