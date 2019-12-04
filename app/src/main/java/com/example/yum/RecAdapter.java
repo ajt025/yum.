@@ -53,8 +53,6 @@ public class RecAdapter extends RecyclerView.Adapter<RecAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Pair<Review, Integer> review = mRecs.get(position);
-
-        // TODO this is where you will load images/text/etc into the review RecyclerView
     }
 
     @Override

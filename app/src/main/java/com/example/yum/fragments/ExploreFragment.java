@@ -35,6 +35,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+/*
+* Displays the explore page, where users can search and find specific
+* food that you would like. Users can submit and write a review here. This
+* fragment contains the most work.
+* */
 public class ExploreFragment extends Fragment {
 
     private Context context;
@@ -118,6 +123,7 @@ public class ExploreFragment extends Fragment {
                     foodAdapter.updateData(myFoods);
                     rvFoods.setAdapter(null);
 
+                    // refresh the sets of food and duplicate
                     foods.clear();
                     set.clear();
 
@@ -144,6 +150,7 @@ public class ExploreFragment extends Fragment {
                                     foodName += currFood.getRestaurant().toLowerCase();
 
 
+                                    // duplicate checking
                                     if (set.contains(foodName) == false) {
                                         set.add(foodName);
                                         foods.add(myFood);
@@ -172,6 +179,7 @@ public class ExploreFragment extends Fragment {
     // HELPER METHODS
     private void populateFoods() {
 
+        // reset food and set to refresh view
         foods.clear();
         set.clear();
 
@@ -202,6 +210,7 @@ public class ExploreFragment extends Fragment {
                             foods.add(myFood);
                         }
                     }
+
 
                     foodAdapter = new FoodAdapter(foods);
                     rvFoods.setAdapter(foodAdapter);

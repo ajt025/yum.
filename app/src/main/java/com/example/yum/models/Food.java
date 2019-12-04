@@ -3,6 +3,13 @@ package com.example.yum.models;
 import org.parceler.Parcel;
 
 @Parcel
+
+/*
+* Food object that will be used to populate the
+* recycler view in Explore Page using
+* the reviews in database
+*
+* */
 public class Food {
 
     public String imgPath;

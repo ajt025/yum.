@@ -19,6 +19,11 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+/*
+* This activity handles logging in and authenticating
+* the user email and password with Firebase authentication
+* database
+* */
 public class LoginActivity extends AppCompatActivity {
 
     private static final String TAG = "LoginActivity";
@@ -32,16 +37,28 @@ public class LoginActivity extends AppCompatActivity {
 
     private Context context;
 
+
     @Override
     public void onStart() {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        //TODO if already login, send to homepage
         if (currentUser != null) {
-            final Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-            startActivity(intent);
-            finish();
+
+            // edge case to check if we came from recovering password
+            Bundle extras = getIntent().getExtras();
+            boolean check;
+            if (extras == null) {
+                check = true;
+            } else {
+                check = extras.getBoolean("boolean_check");
+            }
+            if (check != false) {
+                final Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                startActivity(intent);
+                finish();
+            }
+
         }
     }
 
@@ -67,16 +84,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 // login form to firebase
-                String email = etEmail.getText().toString();
-                String password = etPassword.getText().toString();
-
-                if (email.isEmpty() || password.isEmpty()) {
-                    Toast.makeText(context, "Username and Password cannot be empty", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                // Successful login sends to Homepage
-                login(email, password);
+                login();
             }
         });
 
@@ -99,7 +107,19 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-    private void login(String email, String password) {
+    private void login() {
+
+        String email = etEmail.getText().toString();
+        String password = etPassword.getText().toString();
+
+        if (email.isEmpty() || password.isEmpty()) {
+            Toast.makeText(context, "Username and Password cannot be empty", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        Toast.makeText(LoginActivity.this, "Signing in...",
+                Toast.LENGTH_SHORT).show();
+
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -108,10 +128,14 @@ public class LoginActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithEmail:success");
 
-                            final Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+
+                            final Intent intent = new Intent(LoginActivity.this,
+                                    HomeActivity.class);
                             startActivity(intent);
                             finish();
                         } else {
+
+
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
                             Toast.makeText(LoginActivity.this, "Authentication failed.",

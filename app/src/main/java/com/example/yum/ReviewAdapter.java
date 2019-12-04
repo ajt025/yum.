@@ -19,6 +19,12 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+/*
+* This adapter is used to help display reviews on the food
+* profile page. This will be fetching data from Firebase
+* and be displaying individual reviews in the
+* recyclerview in the food profile page. 
+* */
 public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder> {
     private DatabaseReference myDatabase;
     private DatabaseReference myUsers;
@@ -55,7 +61,8 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
         holder.title.setText(review.getReviewTitle());
         holder.body.setText(review.getReviewBody());
         holder.rating.setNumStars((int) review.getRating());
-        holder.upVoteCount.setText(Integer.toString(review.getUpvoteCount().size() - review.getDownvoteCount().size()));
+        holder.upVoteCount.setText(Integer.toString(review.getUpvoteCount().size()
+                - review.getDownvoteCount().size()));
 
         holder.upvote.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,7 +75,8 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
                         review.getDownvoteCount().remove(currUser);
                     }
 
-                    holder.upVoteCount.setText(Integer.toString(review.getUpvoteCount().size() - review.getDownvoteCount().size()));
+                    holder.upVoteCount.setText(Integer.toString(review.getUpvoteCount().size()
+                            - review.getDownvoteCount().size()));
                     myDatabase.child(reviewId).setValue(review);
                 } else {
                     review.getUpvoteCount().remove(currUser);
@@ -89,7 +97,8 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
                         review.getUpvoteCount().remove(currUser);
                     }
 
-                    holder.upVoteCount.setText(Integer.toString(review.getUpvoteCount().size() - review.getDownvoteCount().size()));
+                    holder.upVoteCount.setText(Integer.toString(review.getUpvoteCount().size()
+                            - review.getDownvoteCount().size()));
                     myDatabase.child(reviewId).setValue(review);
                 } else {
                     review.getDownvoteCount().remove(currUser);

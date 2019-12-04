@@ -1,6 +1,14 @@
 package com.example.yum.models;
 
 
+/*
+* Settings of User that will currently be updated in the
+* Firebase for unique users. It will keep track and help filter
+* out foods in the explore page if the food is not vegan,
+* vegetarian, or the location is too far away.
+*
+*
+* */
 public class Settings {
     public boolean vegetarian;
     public boolean vegan;
