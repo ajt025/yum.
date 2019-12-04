@@ -25,25 +25,31 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.HashSet;
 
+/*
+* This activity is used to list the favorite
+* and wishlist items when viewing them on the profile
+* page. This fetches data from Firebase and displays it
+* in a list format
+* */
 public class ListActivity extends AppCompatActivity {
 
     private ArrayList<String> mList; // holds either fave or wishlist foods, depending on impl
     private ListView lvFood;
-    //private ArrayAdapter<String> foodAdapter;
+
 
 
     private TextView tvListType;
 
     private final int FAVORITE = 0, WISHLIST = 1;
 
-    // Charles' fields:
+    // Charles' implemented fields:
     private RecyclerView rvFoods;
     private ArrayList<Food> foods;
     private HashSet<String> check_for_foods;
     private FoodAdapter foodAdapter;
     private DatabaseReference dbReference;
     private String path;
-    private Context context;
+
 
 
     @Override
@@ -71,7 +77,6 @@ public class ListActivity extends AppCompatActivity {
             path = "Wishlist";
         }
 
-        // TODO load items like in ExploreFragment
         // Get food items in wishlist/favorite list
         check_for_foods = new HashSet<>();
         final String currUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -100,7 +105,10 @@ public class ListActivity extends AppCompatActivity {
 
         // Compare with Reviews
         foods = new ArrayList<Food>();
-        dbReference = FirebaseDatabase.getInstance().getReference("Reviews"); // get reference to child in database
+        // get reference to child in database
+        dbReference = FirebaseDatabase.getInstance().getReference("Reviews");
+        final HashSet<String> duplicates = new HashSet<>();
+        duplicates.clear();
 
         dbReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -118,9 +126,14 @@ public class ListActivity extends AppCompatActivity {
                         String foodName = myFood.getName().toLowerCase();
                         foodName += "_" + currFood.getRestaurant().toLowerCase();
 
+                        // check we are not adding multiple same food
+                        if (duplicates.contains(foodName)) {
+                            continue;
+                        }
 
-                        if (check_for_foods.contains(foodName) == true) { // change to true
+                        else if (check_for_foods.contains(foodName) == true) { // change to true
                             check_for_foods.add(foodName);
+                            duplicates.add(foodName);
                             foods.add(myFood);
                         }
                     }
@@ -135,26 +148,6 @@ public class ListActivity extends AppCompatActivity {
 
             }
         });
-
-
-
-
-
-
-        /*
-        lvFood = findViewById(R.id.lvFood);
-        foodAdapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1,
-                mList);
-
-        lvFood.setAdapter(foodAdapter);
-
-        // TODO load items from either wishlist or favorite in DB
-        for (int i = 0; i < 10; ++i) {
-            mList.add("Food name");
-            foodAdapter.notifyDataSetChanged();
-        }
-    */
 
     }
 }

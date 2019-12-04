@@ -4,6 +4,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.ArrayList;
 
+
+/*
+* Review object that is created when a user
+* submits a review. This object is uploaded
+* to the Firebase database and will be used
+* to display Food Items and Food Profile
+* Pages
+*
+* */
 public class Review {
     public String reviewId;
     public Long userId;

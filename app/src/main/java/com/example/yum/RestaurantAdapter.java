@@ -41,8 +41,6 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Restaurant restaurant = mRestaurants.get(position);
-
-        // TODO this is where you will load images/text/etc into the review RecyclerView
     }
 
     @Override

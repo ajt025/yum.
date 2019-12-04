@@ -17,11 +17,14 @@ import com.example.yum.RecAdapter;
 import com.example.yum.models.Review;
 
 import java.util.ArrayList;
-
+/*
+* This fragment will recommend users new foods and display
+* them based off the wishlist and favorite list of
+* the user.
+* */
 public class RecommendationFragment extends Fragment {
 
     Context context;
-
     RecyclerView rvRecs;
     RecAdapter recAdapter;
     ArrayList<Pair<Review, Integer>> recs;

@@ -13,6 +13,12 @@ import com.example.yum.fragments.ProfileFragment;
 import com.example.yum.fragments.RecommendationFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+/*
+* This activity handles switching from the
+* three tabs and allows users to interact
+* with the recommendation, explore, and
+* profile tab
+* */
 public class HomeActivity extends AppCompatActivity {
 
     BottomNavigationView bottomNavigationView;

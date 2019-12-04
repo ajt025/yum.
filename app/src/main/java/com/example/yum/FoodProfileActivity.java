@@ -30,15 +30,19 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-
+/*
+* This class is used to display the specific
+* food items and reviews from the database.
+* It acts like a generic template that will be filled out
+* by data from the database.
+*
+* */
 public class FoodProfileActivity extends AppCompatActivity {
 
     // Fields
     RecyclerView rvReviews;
-    //RestaurantAdapter restaurantAdapter;
     ArrayList<Restaurant> restaurants;
     ArrayList<Review> reviews;
-    //private DatabaseReference databaseRef;
     protected DatabaseReference databaseRef;
     private TextView tvFood;
     private TextView tvRestaurant;
@@ -77,7 +81,6 @@ public class FoodProfileActivity extends AppCompatActivity {
         });
 
         // Favorite button
-        // TODO center favorite/wishlist buttons
         favoriteBtn = findViewById(R.id.btnFavorite);
         favoriteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,19 +105,11 @@ public class FoodProfileActivity extends AppCompatActivity {
         reviews = new ArrayList<>();
         restaurants = new ArrayList<>();
 
-        // View setup + RV initialization
 
-        //rvRestaurants = findViewById(R.id.rvRestaurants);
         rvReviews = findViewById(R.id.rvReviews);
-
-        //restaurantAdapter = new RestaurantAdapter(restaurants);
         reviewAdapter = new ReviewAdapter(reviews);
-
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-
-        //rvRestaurants.setLayoutManager(layoutManager);
         rvReviews.setLayoutManager(layoutManager);
-        //rvRestaurants.setAdapter(restaurantAdapter);
         rvReviews.setAdapter(reviewAdapter);
 
         //rvRestaurants.addItemDecoration(new DividerItemDecoration(this, layoutManager.getOrientation()));

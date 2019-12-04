@@ -18,15 +18,25 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+/*
+* This activity handles creating a new account and sending
+* that data to Firebase authentication
+* */
 public class CreateAccountActivity extends AppCompatActivity {
 
     private static final String TAG = "CreateAccountActivity";
     private Button btnCreate;
     private EditText accEmail;
+    private EditText accConfirmEmail;
     private EditText accPassword;
     private EditText accConfirmPassword;
     private FirebaseAuth mAuth;
 
+    /*
+    * Helper method that checks if a string is a valid
+    * email or not (Does it use @ and .com)
+    * */
     public static boolean isValid(String email)
     {
         String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."+
@@ -40,7 +50,6 @@ public class CreateAccountActivity extends AppCompatActivity {
         return pat.matcher(email).matches();
     }
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,24 +57,31 @@ public class CreateAccountActivity extends AppCompatActivity {
 
         btnCreate = findViewById(R.id.btnCreate);
         accEmail = findViewById(R.id.accEmail);
+        accConfirmEmail = findViewById(R.id.accConfirmEmail);
         accPassword = findViewById(R.id.accPassword);
         accConfirmPassword = findViewById(R.id.accConfirmPassword);
 
         mAuth = FirebaseAuth.getInstance();
 
-        // TODO implement username/pw/email form
-
-        // TODO redirect to login screen
         btnCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
+                // getting values from fields
                 String accountEmail = accEmail.getText().toString();
+                String accountConfirmEmail = accConfirmEmail.getText().toString();
                 String accountPassword = accPassword.getText().toString();
                 String accountConfirmPassword = accConfirmPassword.getText().toString();
 
+                // verify text input checks
                 if (accountEmail.isEmpty() || accountPassword.isEmpty()) {
                     Toast.makeText(CreateAccountActivity.this, "Username and Password cannot be empty",
+                            Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (accountEmail.compareTo(accountConfirmEmail) != 0) {
+                    Toast.makeText(CreateAccountActivity.this, "Emails does not match",
                             Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -83,47 +99,36 @@ public class CreateAccountActivity extends AppCompatActivity {
                 }
 
                 if (accountPassword.compareTo(accountConfirmPassword) != 0) {
-                    Toast.makeText(CreateAccountActivity.this, "Please Confirm Password",
+                    Toast.makeText(CreateAccountActivity.this, "Passwords does not match",
                             Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-
                 createAccount(accountEmail, accountPassword);
 
-
-
-
-                // redirects user back to login
-                final Intent intent = new Intent(CreateAccountActivity.this,
-                        LoginActivity.class);
-
-                Toast.makeText(CreateAccountActivity.this, "Account Created Successfully",
-                        Toast.LENGTH_SHORT).show();
-
-                startActivity(intent);
-
-                finish();
             }
         });
     }
 
+    //helper method that communicates to firebase to create a new account login
     private void createAccount(String email, String password) {
+
         Log.d(TAG, "createAccount:" + email);
 
-        // [START create_user_with_email]
+        Toast.makeText(CreateAccountActivity.this, "Creating Account...",
+                Toast.LENGTH_SHORT).show();
+
+        // creates user email and password onto firebase
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "createUserWithEmail:success");
-                            //FirebaseUser user = mAuth.getCurrentUser();
-
-                            Toast.makeText(CreateAccountActivity.this, "User Registered Successfully.",
+                            Toast.makeText(CreateAccountActivity.this, "Account created successfully",
                                     Toast.LENGTH_SHORT).show();
-
 
                         } else {
                             // If sign in fails, display a message to the user.
@@ -131,11 +136,18 @@ public class CreateAccountActivity extends AppCompatActivity {
 
                             Toast.makeText(CreateAccountActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
-
                         }
 
                     }
                 });
-        // [END create_user_with_email]
+
+        // redirects user back to login
+        final Intent intent = new Intent(CreateAccountActivity.this,
+                LoginActivity.class);
+
+        startActivity(intent);
+
+        finish();
+
     }
 }

@@ -31,7 +31,10 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-
+/*
+* This activity handles creating a review
+* and sending it to firebase
+* */
 public class ComposeActivity extends AppCompatActivity {
 
     private FloatingActionButton fabSubmit; // completes review + submits
@@ -101,15 +104,20 @@ public class ComposeActivity extends AppCompatActivity {
 
                 // Includes null argument checks
                 if (etDishName.getText().toString().trim().length() <= 0) {
-                    Toast.makeText(ComposeActivity.this, "Please include dish name", Toast.LENGTH_LONG).show();
+                    Toast.makeText(ComposeActivity.this, "Please include dish name",
+                            Toast.LENGTH_LONG).show();
                 } else if (etRestaurantName.getText().toString().trim().length() <= 0) {
-                    Toast.makeText(ComposeActivity.this, "Please include restaurant name", Toast.LENGTH_LONG).show();
+                    Toast.makeText(ComposeActivity.this, "Please include restaurant name",
+                            Toast.LENGTH_LONG).show();
                 } else if (etTitle.getText().toString().trim().length() <= 0) {
-                    Toast.makeText(ComposeActivity.this, "Please include review title", Toast.LENGTH_LONG).show();
+                    Toast.makeText(ComposeActivity.this, "Please include review title",
+                            Toast.LENGTH_LONG).show();
                 } else if (etReviewBody.getText().toString().trim().length() <= 0) {
-                    Toast.makeText(ComposeActivity.this, "Please include review body", Toast.LENGTH_LONG).show();
+                    Toast.makeText(ComposeActivity.this, "Please include review body",
+                            Toast.LENGTH_LONG).show();
                 } else if (defaultImage == null || defaultImage == ivDisplay.getDrawable()) {
-                    Toast.makeText(ComposeActivity.this, "Please include image", Toast.LENGTH_LONG).show();
+                    Toast.makeText(ComposeActivity.this, "Please include image",
+                            Toast.LENGTH_LONG).show();
                 }
                 else {
 
@@ -117,7 +125,7 @@ public class ComposeActivity extends AppCompatActivity {
                     String title = etTitle.getText().toString();
                     int rating = rbRating.getNumStars();
                     String description = etReviewBody.getText().toString();
-                    String restaurant = etRestaurantName.getText().toString(); // TODO eventually use google places + ID?
+                    String restaurant = etRestaurantName.getText().toString();
                     String id = myDatabase.push().getKey();
 
                     //constructing data object here
@@ -145,7 +153,8 @@ public class ComposeActivity extends AppCompatActivity {
                     // send it to firebase
                     myDatabase.child(id).setValue(review);
 
-                    Toast.makeText(ComposeActivity.this, "Review Submitted", Toast.LENGTH_LONG).show();
+                    Toast.makeText(ComposeActivity.this, "Review Submitted",
+                            Toast.LENGTH_LONG).show();
 
                     final Intent intent = new Intent(ComposeActivity.this,
                             HomeActivity.class);

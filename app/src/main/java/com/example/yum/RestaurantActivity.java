@@ -35,9 +35,6 @@ public class RestaurantActivity extends AppCompatActivity {
     // HELPER METHODS
 
     private void populateReviews() {
-        /*
-         * TODO remove this, just test code. Here is where you would make database calls and retrieve reviews
-         */
         for (int i = 0; i < 10; ++i) {
             reviews.add(new Review());
             reviewAdapter.notifyItemInserted(reviews.size() - 1); // tells rv to check for updates

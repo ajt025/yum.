@@ -58,6 +58,12 @@ import java.io.FileNotFoundException;
 
 import static android.app.Activity.RESULT_OK;
 
+/*
+* Users can customize their profile image
+* as well as their settings here. They will find
+* their wishlist and favorite list here as well.
+*
+* */
 public class ProfileFragment extends Fragment {
 
     private Button btnSignOut;
@@ -103,15 +109,8 @@ public class ProfileFragment extends Fragment {
         btnFavorites = view.findViewById(R.id.btnFavorites);
 
         // Define functionality for sign out button
-
         profilePic = view.findViewById(R.id.ivProfilePic);
-
-
-
-
-
         btnDeleteAcc = view.findViewById(R.id.btnDeleteAccount);
-
         btnSignOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -144,17 +143,15 @@ public class ProfileFragment extends Fragment {
 
         DatabaseReference childImg = myDatabase.child(currUser).child("profileImgPath");
 
-
         childImg.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
                 String imageURL = dataSnapshot.getValue(String.class);
+                // load picture into Profile Image
                 if (imageURL != null) {
                     Picasso.get().load(imageURL).into(profilePic);
                 }
-
-
             }
 
             @Override
@@ -162,13 +159,9 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-
-
         settings = new Settings();
-
         myDatabase = FirebaseDatabase.getInstance().getReference().child("User Settings");
-        settings = new Settings(); // TODO load in user settings from database
-
+        settings = new Settings();
 
         btnWishlist.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -195,15 +188,8 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        // TODO implement state persistence --> upon profile screen load, check if switches are
-        // already set and reflect accordingly
-
-
         // Update database to reflect change of vegetarian setting
-
         final String currUserId = currUser;
-
-
         switchVegetarian.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
@@ -382,6 +368,7 @@ public class ProfileFragment extends Fragment {
         });
     }
 
+    // Delete User Helper Function
     private void deleteUserSettings() {
         final DatabaseReference userDatabase = FirebaseDatabase.getInstance().getReference().child("User Settings");
         final String currUserId = currUser.getUid();
@@ -458,22 +445,12 @@ public class ProfileFragment extends Fragment {
                         myDatabase.child(idToFind).child("profileImgPath").
                                 setValue(uri.toString());
 
-
                     }
                 });
             }
         });
-
-
-
-
-
-
     }
-
-
-
-    }
+}
 
 
 

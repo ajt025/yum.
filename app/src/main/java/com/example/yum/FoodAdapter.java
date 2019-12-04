@@ -21,6 +21,11 @@ import org.w3c.dom.Text;
 import java.util.ArrayList;
 import java.util.List;
 
+/*
+* This adapter is used to display the food items as a
+* list in the Explore Page. This allows for
+* food name and the food picture to be displayed
+* */
 public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> {
 
 
@@ -45,7 +50,7 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> {
         return viewHolder;
     }
 
-    // bind values based on the position of each element
+    // binds values based on the position of each element
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         Food food1 = mFoods.get(position);
