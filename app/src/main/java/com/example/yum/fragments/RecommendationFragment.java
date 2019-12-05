@@ -21,7 +21,6 @@ import com.yuyakaido.android.cardstackview.StackFrom;
 
 import java.util.ArrayList;
 
-
 /*
  * This fragment will recommend users new foods and display
  * them based off the wishlist and favorite list of
@@ -150,21 +149,18 @@ public class RecommendationFragment extends Fragment implements CardStackListene
          * TODO remove this, just test code. Here is where you would make database calls and retrieve reviews
          */
         for (int i = 0; i < 3; ++i) {
-            shareList.add(new Review()); // alternate b/t dare and share
-            shareAdapter.notifyItemInserted(shareList.size() - 1); // tells rv to check for updates
-
-            dareList.add(new Review());
-            dareAdapter.notifyItemInserted(dareList.size() - 1);
+            newReviews.add(new Review());
         }
 
-            // TODO get user's favorites
+        // TODO get user's favorites
 
-            // TODO parse user faves and extract tags from food names + extract restaurants reviewed
+        // TODO parse user faves and extract tags from food names + extract restaurants reviewed
 
-            // TODO re-query all reviews for food with those tags + user has not favorited/reviewed before
+        // TODO re-query all reviews for food with those tags + user has not favorited/reviewed before
 
-            // TODO populate those reviews into ArrayList to send back
+        // TODO populate those reviews into ArrayList to send back
 
         return newReviews;
     }
+
 }
