@@ -16,6 +16,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -32,6 +34,9 @@ public class CreateAccountActivity extends AppCompatActivity {
     private EditText accPassword;
     private EditText accConfirmPassword;
     private FirebaseAuth mAuth;
+    private EditText accFirstName;
+    private EditText accLastName;
+
 
     /*
     * Helper method that checks if a string is a valid
@@ -56,6 +61,8 @@ public class CreateAccountActivity extends AppCompatActivity {
         setContentView(R.layout.activity_account);
 
         btnCreate = findViewById(R.id.btnCreate);
+        accFirstName = findViewById(R.id.accFirst);
+        accLastName = findViewById(R.id.accLast);
         accEmail = findViewById(R.id.accEmail);
         accConfirmEmail = findViewById(R.id.accConfirmEmail);
         accPassword = findViewById(R.id.accPassword);
@@ -69,6 +76,8 @@ public class CreateAccountActivity extends AppCompatActivity {
 
                 // getting values from fields
                 String accountEmail = accEmail.getText().toString();
+                String accountFirstname = accFirstName.getText().toString();
+                String accountLastname = accLastName.getText().toString();
                 String accountConfirmEmail = accConfirmEmail.getText().toString();
                 String accountPassword = accPassword.getText().toString();
                 String accountConfirmPassword = accConfirmPassword.getText().toString();
@@ -79,6 +88,15 @@ public class CreateAccountActivity extends AppCompatActivity {
                             Toast.LENGTH_SHORT).show();
                     return;
                 }
+
+
+                // verify text input checks
+                if (accountFirstname.isEmpty() || accountLastname.isEmpty()) {
+                    Toast.makeText(CreateAccountActivity.this, "First or Last name cannot be empty",
+                            Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
 
                 if (accountEmail.compareTo(accountConfirmEmail) != 0) {
                     Toast.makeText(CreateAccountActivity.this, "Emails does not match",
@@ -104,14 +122,14 @@ public class CreateAccountActivity extends AppCompatActivity {
                     return;
                 }
 
-                createAccount(accountEmail, accountPassword);
+                createAccount(accountEmail, accountPassword, accountFirstname, accountLastname);
 
             }
         });
     }
 
     //helper method that communicates to firebase to create a new account login
-    private void createAccount(String email, String password) {
+    private void createAccount(String email, String password, String firstName, String lastName) {
 
         Log.d(TAG, "createAccount:" + email);
 
@@ -140,6 +158,16 @@ public class CreateAccountActivity extends AppCompatActivity {
 
                     }
                 });
+
+
+
+
+        //FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        //UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                //.setDisplayName(firstName + lastName).build();
+
+        //user.updateProfile(profileUpdates);
 
         // redirects user back to login
         final Intent intent = new Intent(CreateAccountActivity.this,
