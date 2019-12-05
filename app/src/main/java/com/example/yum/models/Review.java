@@ -1,7 +1,5 @@
 package com.example.yum.models;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 import java.util.ArrayList;
 
 
@@ -15,8 +13,7 @@ import java.util.ArrayList;
 * */
 public class Review {
     public String reviewId;
-    public Long userId;
-    public int foodId;
+    public String userId;
     public String restaurant;
     public String imgPath;
     public String reviewTitle;
@@ -36,11 +33,11 @@ public class Review {
         this.reviewId = reviewId;
     }
 
-    public Long getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(Long userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 
@@ -50,14 +47,6 @@ public class Review {
 
     public void setFood(String food) {
         this.food = food;
-    }
-
-    public int getFoodId() {
-        return foodId;
-    }
-
-    public void setFoodId(int foodId) {
-        this.foodId = foodId;
     }
 
     public String getRestaurant() {
