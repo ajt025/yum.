@@ -61,6 +61,8 @@ public class CreateAccountActivity extends AppCompatActivity {
         setContentView(R.layout.activity_account);
 
         btnCreate = findViewById(R.id.btnCreate);
+        accFirstName = findViewById(R.id.accFirst);
+        accLastName = findViewById(R.id.accLast);
         accEmail = findViewById(R.id.accEmail);
         accConfirmEmail = findViewById(R.id.accConfirmEmail);
         accPassword = findViewById(R.id.accPassword);
@@ -160,12 +162,12 @@ public class CreateAccountActivity extends AppCompatActivity {
 
 
 
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        //FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                .setDisplayName(firstName + lastName).build();
+        //UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                //.setDisplayName(firstName + lastName).build();
 
-        user.updateProfile(profileUpdates);
+        //user.updateProfile(profileUpdates);
 
         // redirects user back to login
         final Intent intent = new Intent(CreateAccountActivity.this,

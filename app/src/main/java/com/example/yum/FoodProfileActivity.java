@@ -48,6 +48,7 @@ public class FoodProfileActivity extends AppCompatActivity {
     private TextView tvRestaurant;
     String imageURL;
     String foodName;
+    String foodRestaurant;
     ReviewAdapter reviewAdapter;
     Button wishlistBtn;
     Button favoriteBtn;
@@ -133,8 +134,13 @@ public class FoodProfileActivity extends AppCompatActivity {
                     reviews.clear();
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         Review currFood = snapshot.getValue(Review.class);
+
+                        String currFoodName = currFood.getFood();
+                        String currFoodRestaurant = currFood.getRestaurant();
+                        currFoodName += currFoodRestaurant;
+
                         // matching food
-                        if (currFood.getFood().compareToIgnoreCase(foodName) == 0) {
+                        if (currFoodName.compareToIgnoreCase(foodName+foodRestaurant) == 0) {
                             if (currFood != null) {
                                 addReview(currFood);
                             }
@@ -157,6 +163,7 @@ public class FoodProfileActivity extends AppCompatActivity {
         if (getIntent().hasExtra("image_url") && getIntent().hasExtra("food_name")) {
             imageURL = getIntent().getStringExtra("image_url");
             foodName = getIntent().getStringExtra("food_name");
+            foodRestaurant = getIntent().getStringExtra("food_restaurant");
 
             setImage(imageURL, foodName);
 
