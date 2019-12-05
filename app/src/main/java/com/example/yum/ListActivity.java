@@ -122,6 +122,7 @@ public class ListActivity extends AppCompatActivity {
                         Food myFood = new Food();
                         myFood.setName(currFood.getFood());
                         myFood.setImgPath(currFood.getImgPath());
+                        myFood.setRestaurant(currFood.getRestaurant());
 
                         String foodName = myFood.getName().toLowerCase();
                         foodName += "_" + currFood.getRestaurant().toLowerCase();
