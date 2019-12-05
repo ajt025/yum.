@@ -61,6 +61,9 @@ public class CreateAccountActivity extends AppCompatActivity {
         setContentView(R.layout.activity_account);
 
         btnCreate = findViewById(R.id.btnCreate);
+
+        accFirstName = findViewById(R.id.accFirst);
+        accLastName = findViewById(R.id.accLast);
         accEmail = findViewById(R.id.accEmail);
         accConfirmEmail = findViewById(R.id.accConfirmEmail);
         accPassword = findViewById(R.id.accPassword);
