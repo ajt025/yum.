@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.EditText;
 
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -75,7 +76,7 @@ public class ProfileFragment extends Fragment {
     private Switch switchVegan;
     private Switch switchLocation;
     private ImageView profilePic;
-
+    private TextView tvName;
 
 
     private Uri targetUri;
@@ -234,6 +235,19 @@ public class ProfileFragment extends Fragment {
                 }
             }
         });
+
+
+        //The profile name Textview
+        tvName = view.findViewById(R.id.tvName);
+
+        String displayName = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
+
+        //display name if it's not null
+        if(displayName!=null && !displayName.equals("")){
+            tvName.setText(displayName);
+        }
+
+
     }
 
     // HELPER METHODS //
