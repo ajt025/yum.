@@ -30,6 +30,18 @@
         android:textSize="20dp"
         app:layout_constraintBottom_toBottomOf="@+id/ivFoodPic"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/ivFoodPic"
-        app:layout_constraintTop_toTopOf="@+id/ivFoodPic" />
+        app:layout_constraintTop_toTopOf="@+id/ivFoodPic"
+        app:layout_constraintVertical_bias="0.181" />
+
+    <TextView
+        android:id="@+id/tvFoodRestaurant"
+        android:layout_width="211dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="4dp"
+        android:text="Food Restaurant"
+        app:layout_constraintStart_toEndOf="@+id/ivFoodPic"
+        app:layout_constraintTop_toBottomOf="@+id/tvName" />
 </androidx.constraintlayout.widget.ConstraintLayout>
