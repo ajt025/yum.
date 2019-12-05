@@ -8,8 +8,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.yum.R;
 import com.example.yum.RecAdapter;
@@ -19,6 +17,7 @@ import com.yuyakaido.android.cardstackview.CardStackLayoutManager;
 import com.yuyakaido.android.cardstackview.CardStackListener;
 import com.yuyakaido.android.cardstackview.CardStackView;
 import com.yuyakaido.android.cardstackview.Direction;
+import com.yuyakaido.android.cardstackview.StackFrom;
 
 import java.util.ArrayList;
 
@@ -33,6 +32,7 @@ public class RecommendationFragment extends Fragment {
 
     TabLayout tabRec;
     CardStackView csvShareDare;
+    CardStackLayoutManager layoutManager;
     TextView tvHeader;
 
     RecAdapter shareAdapter;
@@ -63,7 +63,10 @@ public class RecommendationFragment extends Fragment {
         shareAdapter = new RecAdapter(shareList);
         dareAdapter = new RecAdapter(dareList);
 
-        csvShareDare.setLayoutManager(new CardStackLayoutManager(context, this));
+        layoutManager = new CardStackLayoutManager(context, this);
+        layoutManager.setStackFrom(StackFrom.Top);
+
+        csvShareDare.setLayoutManager(layoutManager);
         csvShareDare.setAdapter(shareAdapter); // default card list
 
         // handle tab switching and which list to display in cards
@@ -94,7 +97,8 @@ public class RecommendationFragment extends Fragment {
             }
         });
 
-        populateReviews(); // call to put reviews into RV
+        shareAdapter.addAll(populateReviews());
+        dareAdapter.addAll(populateReviews());
     }
 
     // Swipe Listener Callbacks
@@ -106,8 +110,15 @@ public class RecommendationFragment extends Fragment {
 
     @Override
     public void onCardSwiped(Direction direction) {
-
-    }
+        if (csvShareDare.getAdapter() == shareAdapter) {
+            if (layoutManager.getTopPosition() == shareAdapter.getItemCount()) {
+                csvShareDare.scrollToPosition(0);
+            }
+        } else {
+            if (layoutManager.getTopPosition() == dareAdapter.getItemCount()) {
+                csvShareDare.scrollToPosition(0);
+            }
+        }    }
 
     @Override
     public void onCardRewound() {
@@ -131,16 +142,25 @@ public class RecommendationFragment extends Fragment {
 
     // HELPER METHODS
 
-    private void populateReviews() {
+    private ArrayList<Review> populateReviews() {
+        // Share population
+        ArrayList<Review> newReviews = new ArrayList<>();
         /*
          * TODO remove this, just test code. Here is where you would make database calls and retrieve reviews
          */
         for (int i = 0; i < 3; ++i) {
-            shareList.add(new Review()); // alternate b/t dare and share
-            shareAdapter.notifyItemInserted(shareList.size() - 1); // tells rv to check for updates
-
-            dareList.add(new Review());
-            dareAdapter.notifyItemInserted(dareList.size() - 1);
+            newReviews.add(new Review());
         }
+
+        // TODO get user's favorites
+
+        // TODO parse user faves and extract tags from food names + extract restaurants reviewed
+
+        // TODO re-query all reviews for food with those tags + user has not favorited/reviewed before
+
+        // TODO populate those reviews into ArrayList to send back
+
+        return newReviews;
     }
+
 }
