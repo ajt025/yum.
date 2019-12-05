@@ -59,4 +59,18 @@ public class RecAdapter extends RecyclerView.Adapter<RecAdapter.ViewHolder> {
         }
 
     }
+
+    // RecAdapter - HELPER METHODS //
+
+    // remove all reviews from backing list
+    public void clear() {
+        mRecs.clear();
+        notifyDataSetChanged();
+    }
+
+    // add all reviews from a list to the backing list
+    public void addAll(List<Review> list) {
+        mRecs.addAll(list);
+        notifyDataSetChanged();
+    }
 }
