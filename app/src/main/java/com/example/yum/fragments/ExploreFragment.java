@@ -145,6 +145,7 @@ public class ExploreFragment extends Fragment {
                                     Food myFood = new Food();
                                     myFood.setName(currFood.getFood());
                                     myFood.setImgPath(currFood.getImgPath());
+                                    myFood.setRestaurant(currFood.getRestaurant());
 
                                     String foodName = myFood.getName().toLowerCase();
                                     foodName += currFood.getRestaurant().toLowerCase();
