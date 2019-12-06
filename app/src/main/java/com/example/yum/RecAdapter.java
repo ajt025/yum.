@@ -15,7 +15,6 @@ import com.example.yum.models.Review;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class RecAdapter extends RecyclerView.Adapter<RecAdapter.ViewHolder> {
 
