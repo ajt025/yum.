@@ -6,34 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tabRec"
-        style="@style/textStyle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divHeader"
-        app:tabGravity="fill"
-        app:tabIndicatorColor="@color/queenBlue"
-        app:tabIndicatorHeight="5dp"
-        app:tabTextColor="@color/outerSpace">
-
-        <com.google.android.material.tabs.TabItem
-            android:id="@+id/tabShare"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Share" />
-
-        <com.google.android.material.tabs.TabItem
-            android:id="@+id/tabDare"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Dare" />
-    </com.google.android.material.tabs.TabLayout>
-
     <TextView
         android:id="@+id/tvHeader"
         style="@style/textStyle"
@@ -41,7 +13,7 @@
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:padding="15dp"
-        android:text="Make sure to try these places too!"
+        android:text="@string/share"
         android:textSize="24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -55,7 +27,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divCard"
+        app:layout_constraintTop_toBottomOf="@+id/tvHeader"
         app:layout_constraintVertical_bias="1.0">
 
     </com.yuyakaido.android.cardstackview.CardStackView>
@@ -68,14 +40,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvHeader" />
-
-    <View
-        android:id="@+id/divCard"
-        android:layout_width="0dp"
-        android:layout_height="2dp"
-        android:background="@color/outerSpace"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tabRec" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
