@@ -2,17 +2,26 @@ package com.example.yum.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.example.yum.R;
 import com.example.yum.RecAdapter;
 import com.example.yum.models.Review;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager;
 import com.yuyakaido.android.cardstackview.CardStackListener;
 import com.yuyakaido.android.cardstackview.CardStackView;
@@ -20,13 +29,16 @@ import com.yuyakaido.android.cardstackview.Direction;
 import com.yuyakaido.android.cardstackview.StackFrom;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Iterator;
 
 /*
 * This fragment will recommend users new foods and display
 * them based off the wishlist and favorite list of
 * the user.
 * */
-public class RecommendationFragment extends Fragment {
+public class RecommendationFragment extends Fragment implements CardStackListener {
 
     Context context;
 
@@ -39,6 +51,9 @@ public class RecommendationFragment extends Fragment {
     RecAdapter dareAdapter;
     ArrayList<Review> shareList;
     ArrayList<Review> dareList;
+
+    FirebaseDatabase databaseRef;
+    final String currUser = FirebaseAuth.getInstance().getUid();
 
     // The onCreateView method is called when Fragment should create its View object hierarchy.
     @Override
@@ -97,8 +112,9 @@ public class RecommendationFragment extends Fragment {
             }
         });
 
-        shareAdapter.addAll(populateReviews());
-        dareAdapter.addAll(populateReviews());
+        databaseRef = FirebaseDatabase.getInstance();
+
+        populateShares();
     }
 
     // Swipe Listener Callbacks
@@ -142,25 +158,108 @@ public class RecommendationFragment extends Fragment {
 
     // HELPER METHODS
 
-    private ArrayList<Review> populateReviews() {
-        // Share population
-        ArrayList<Review> newReviews = new ArrayList<>();
-        /*
-         * TODO remove this, just test code. Here is where you would make database calls and retrieve reviews
-         */
-        for (int i = 0; i < 3; ++i) {
-            newReviews.add(new Review());
-        }
+    private void populateShares() {
+        // Populate share cardstack
+        final HashSet<String> userFoodTags = new HashSet<>();
+        final HashSet<String> userVisitedRestaurants = new HashSet<>();
 
         // TODO get user's favorites
+        DatabaseReference favRef = databaseRef.getReference().child("Favorites").child(currUser);
+        favRef.orderByKey().addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Iterator<DataSnapshot> iter = dataSnapshot.getChildren().iterator();
 
-        // TODO parse user faves and extract tags from food names + extract restaurants reviewed
+                while (iter.hasNext()) {
+                    String foodRestaurantKey = iter.next().getKey();
 
-        // TODO re-query all reviews for food with those tags + user has not favorited/reviewed before
+                    // TODO parse user faves and extract tags from food names + extract restaurants reviewed
+                    Collections.addAll(userFoodTags, parseFoodTags(foodRestaurantKey));
+                    Collections.addAll(userVisitedRestaurants, parseRestaurantName(foodRestaurantKey));
+                }
 
-        // TODO populate those reviews into ArrayList to send back
+//                Log.d("RecFrag - FoodTags", foodTags.toString());
+//                Log.d("RecFrag - Restaurants", visitedRestaurants.toString());
 
-        return newReviews;
+                // TODO re-query all reviews for food with those tags + user has not favorited/reviewed before
+                getSimilarFoods(userFoodTags, userVisitedRestaurants);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    // HELPER METHODS //
+
+    /* Keys for favorites are saved in Database as such "food name_restaurant"
+     * This method parses the key string for each word before the '_' and returns a list of the
+     * tags.
+     */
+    private String[] parseFoodTags(String favoriteKey) {
+        // Get all text before _, representing food name
+        int underscorePos = favoriteKey.indexOf('_');
+        String foodName = favoriteKey.substring(0, underscorePos);
+
+        // Split text on spaces to generate tags
+        return foodName.split(" ");
+    }
+
+    private String parseRestaurantName(String favoriteKey) {
+        // Get all text after _ (exclusive), representing the restaurant's name
+        int underscorePos = favoriteKey.indexOf('_') + 1;
+        String restaurantName = favoriteKey.substring(underscorePos);
+
+        return restaurantName;
+    }
+
+    private void getSimilarFoods(final HashSet<String> userFoodTags,
+                                              final HashSet<String> userVisitedRestaurants) {
+        ArrayList<Review> results = new ArrayList<>();
+
+        DatabaseReference reviewRef = databaseRef.getReference().child("Reviews");
+        reviewRef.orderByKey().addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Iterator<DataSnapshot> iter = dataSnapshot.getChildren().iterator();
+                ArrayList<Review> recReviews = new ArrayList<>();
+
+                // TODO populate those reviews into CSV
+                while (iter.hasNext()) {
+                    DataSnapshot curr = iter.next();
+
+                    String foodName = (String) curr.child("food").getValue();
+                    String restaurantName = (String) curr.child("restaurant").getValue();
+
+                    // TODO get food tags from the review
+                    HashSet<String> reviewFoodTags = new HashSet<>();
+                    Collections.addAll(reviewFoodTags, foodName.split(" "));
+
+                    // check if there are any matching food tags
+                    if (!Collections.disjoint(userFoodTags, reviewFoodTags)) {
+                        // check if the user has been to this restaurant
+                        if (!userVisitedRestaurants.contains(restaurantName)) {
+
+                            // matching food tag + user has not visited restaurant -> recommend
+                            Review review = curr.getValue(Review.class);
+                            recReviews.add(review);
+                        }
+                    }
+                }
+
+                // update cardstack with reviews
+                shareAdapter.clear();
+                shareAdapter.addAll(recReviews);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
 }

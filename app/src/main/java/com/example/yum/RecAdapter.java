@@ -5,11 +5,15 @@ import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.RatingBar;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.yum.models.Review;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -43,6 +47,17 @@ public class RecAdapter extends RecyclerView.Adapter<RecAdapter.ViewHolder> {
         Review review = mRecs.get(position);
 
         // TODO this is where you will load images/text/etc into the review RecyclerView
+        Picasso.get()
+                .load(review.getImgPath())
+                .fit()
+                .centerCrop()
+                .into(holder.ivFood);
+
+        holder.tvFoodName.setText(review.getFood());
+        holder.tvRestaurantName.setText(review.getRestaurant());
+        holder.rbRating.setRating((float) review.getRating());
+        holder.tvTitle.setText(review.getReviewTitle());
+        holder.tvDescription.setText(review.getReviewBody());
     }
 
     @Override
@@ -53,8 +68,22 @@ public class RecAdapter extends RecyclerView.Adapter<RecAdapter.ViewHolder> {
     // ViewHolder class, handles connection of views to vars and listener setup
     public class ViewHolder extends RecyclerView.ViewHolder {
 
+        ImageView ivFood;
+        TextView tvFoodName;
+        TextView tvRestaurantName;
+        RatingBar rbRating;
+        TextView tvTitle;
+        TextView tvDescription;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+
+            ivFood = itemView.findViewById(R.id.ivFood);
+            tvFoodName = itemView.findViewById(R.id.tvFoodName);
+            tvRestaurantName = itemView.findViewById(R.id.tvRestaurantName);
+            rbRating = itemView.findViewById(R.id.rbRating);
+            tvDescription = itemView.findViewById(R.id.tvDescription);
+            tvTitle = itemView.findViewById(R.id.tvTitle);
         }
 
     }
@@ -68,7 +97,7 @@ public class RecAdapter extends RecyclerView.Adapter<RecAdapter.ViewHolder> {
     }
 
     // add all reviews from a list to the backing list
-    public void addAll(List<Review> list) {
+    public void addAll(ArrayList<Review> list) {
         mRecs.addAll(list);
         notifyDataSetChanged();
     }
