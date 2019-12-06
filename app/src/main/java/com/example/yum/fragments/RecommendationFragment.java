@@ -13,9 +13,7 @@ import androidx.fragment.app.Fragment;
 import com.example.yum.R;
 import com.example.yum.RecAdapter;
 import com.example.yum.models.Review;
-import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -41,15 +39,12 @@ public class RecommendationFragment extends Fragment implements CardStackListene
 
     Context context;
 
-    TabLayout tabRec;
-    CardStackView csvShareDare;
+    CardStackView csvRecs;
     CardStackLayoutManager layoutManager;
     TextView tvHeader;
 
-    RecAdapter shareAdapter;
-    RecAdapter dareAdapter;
-    ArrayList<Review> shareList;
-    ArrayList<Review> dareList;
+    RecAdapter recAdapter;
+    ArrayList<Review> recList;
 
     FirebaseDatabase databaseRef;
     final String currUser = FirebaseAuth.getInstance().getUid();
@@ -68,52 +63,21 @@ public class RecommendationFragment extends Fragment implements CardStackListene
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         // View setup + RV/CSV initialization
-        tabRec = view.findViewById(R.id.tabRec);
-        csvShareDare = view.findViewById(R.id.csvRec);
+        csvRecs = view.findViewById(R.id.csvRec);
         tvHeader = view.findViewById(R.id.tvHeader);
 
-        shareList = new ArrayList<>();
-        dareList = new ArrayList<>();
-        shareAdapter = new RecAdapter(shareList);
-        dareAdapter = new RecAdapter(dareList);
+        recList = new ArrayList<>();
+        recAdapter = new RecAdapter(recList);
 
         layoutManager = new CardStackLayoutManager(context, this);
         layoutManager.setStackFrom(StackFrom.Top);
 
-        csvShareDare.setLayoutManager(layoutManager);
-        csvShareDare.setAdapter(shareAdapter); // default card list
-
-        // handle tab switching and which list to display in cards
-        tabRec.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                int position = tab.getPosition();
-
-                if (position == 0) { // share
-                    csvShareDare.setAdapter(shareAdapter);
-                    tvHeader.setText(R.string.share);
-                } else { // dare
-                    csvShareDare.setAdapter(dareAdapter);
-                    tvHeader.setText(R.string.dare);
-                }
-
-                csvShareDare.getAdapter().notifyDataSetChanged(); // update card stack
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
+        csvRecs.setLayoutManager(layoutManager);
+        csvRecs.setAdapter(recAdapter); // default card list
 
         databaseRef = FirebaseDatabase.getInstance();
 
-        populateShares();
+        populateRecommendations();
     }
 
     // Swipe Listener Callbacks
@@ -125,15 +89,11 @@ public class RecommendationFragment extends Fragment implements CardStackListene
 
     @Override
     public void onCardSwiped(Direction direction) {
-        if (csvShareDare.getAdapter() == shareAdapter) {
-            if (layoutManager.getTopPosition() == shareAdapter.getItemCount()) {
-                csvShareDare.scrollToPosition(0);
-            }
-        } else {
-            if (layoutManager.getTopPosition() == dareAdapter.getItemCount()) {
-                csvShareDare.scrollToPosition(0);
-            }
-        }    }
+        // reset recommendations when end of card stack reached
+        if (layoutManager.getTopPosition() == recAdapter.getItemCount()) {
+            populateRecommendations();
+        }
+    }
 
     @Override
     public void onCardRewound() {
@@ -155,34 +115,33 @@ public class RecommendationFragment extends Fragment implements CardStackListene
 
     }
 
-    // HELPER METHODS
+    //**    HELPER METHODS    **//
 
-    private void populateShares() {
-        // Populate share cardstack
+    /* Populates the CardStackView and generates a list of recommendations for the user
+     * based on their "favorites" list.
+     */
+    private void populateRecommendations() {
         final HashSet<String> userFoodTags = new HashSet<>();
         final HashSet<String> userVisitedRestaurants = new HashSet<>();
 
-        // TODO get user's favorites
+        // get user's favorites
         DatabaseReference favRef = databaseRef.getReference().child("Favorites").child(currUser);
         favRef.orderByKey().addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Iterator<DataSnapshot> iter = dataSnapshot.getChildren().iterator();
 
+                // Iterate each favorite entry and pull food name keywords as well as restaurant names
                 while (iter.hasNext()) {
                     String foodRestaurantKey = iter.next().getKey();
 
-                    // TODO parse user faves and extract tags from food names + extract restaurants reviewed
+                    // parse user faves and extract tags from food names + extract restaurants reviewed
                     Collections.addAll(userFoodTags, parseFoodTags(foodRestaurantKey));
                     Collections.addAll(userVisitedRestaurants, parseRestaurantName(foodRestaurantKey));
                 }
 
-//                Log.d("RecFrag - FoodTags", foodTags.toString());
-//                Log.d("RecFrag - Restaurants", visitedRestaurants.toString());
-
-                // TODO re-query all reviews for food with those tags + user has not favorited/reviewed before
+                // re-query all reviews for food with those tags + user has not favorited/reviewed before
                 getSimilarFoods(userFoodTags, userVisitedRestaurants);
-
             }
 
             @Override
@@ -191,8 +150,6 @@ public class RecommendationFragment extends Fragment implements CardStackListene
             }
         });
     }
-
-    // HELPER METHODS //
 
     /* Keys for favorites are saved in Database as such "food name_restaurant"
      * This method parses the key string for each word before the '_' and returns a list of the
@@ -207,6 +164,9 @@ public class RecommendationFragment extends Fragment implements CardStackListene
         return foodName.split(" ");
     }
 
+    /* Keys for favorites are saved in Database as such "food name_restaurant"
+     * This method parses the key string for the substring after the '_' and returns that string.
+     */
     private String parseRestaurantName(String favoriteKey) {
         // Get all text after _ (exclusive), representing the restaurant's name
         int underscorePos = favoriteKey.indexOf('_') + 1;
@@ -215,10 +175,13 @@ public class RecommendationFragment extends Fragment implements CardStackListene
         return restaurantName;
     }
 
+    /* Generates a list of recommendations for the user based on their favorite history.
+     * Populates their CardStackView directly. No return.
+     */
     private void getSimilarFoods(final HashSet<String> userFoodTags,
                                               final HashSet<String> userVisitedRestaurants) {
-        ArrayList<Review> results = new ArrayList<>();
 
+        // Grab reference to the reviews database
         DatabaseReference reviewRef = databaseRef.getReference().child("Reviews");
         reviewRef.orderByKey().addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -226,20 +189,20 @@ public class RecommendationFragment extends Fragment implements CardStackListene
                 Iterator<DataSnapshot> iter = dataSnapshot.getChildren().iterator();
                 ArrayList<Review> recReviews = new ArrayList<>();
 
-                // TODO populate those reviews into CSV
+                // Iterate reviews in search of reccs
                 while (iter.hasNext()) {
                     DataSnapshot curr = iter.next();
 
                     String foodName = (String) curr.child("food").getValue();
                     String restaurantName = (String) curr.child("restaurant").getValue();
 
-                    // TODO get food tags from the review
+                    // get food tags from the review's food name
                     HashSet<String> reviewFoodTags = new HashSet<>();
                     Collections.addAll(reviewFoodTags, foodName.split(" "));
 
                     // check if there are any matching food tags
                     if (!Collections.disjoint(userFoodTags, reviewFoodTags)) {
-                        // check if the user has been to this restaurant
+                        // check if the user has been to this restaurant before
                         if (!userVisitedRestaurants.contains(restaurantName)) {
 
                             // matching food tag + user has not visited restaurant -> recommend
@@ -250,8 +213,8 @@ public class RecommendationFragment extends Fragment implements CardStackListene
                 }
 
                 // update cardstack with reviews
-                shareAdapter.clear();
-                shareAdapter.addAll(recReviews);
+                recAdapter.clear();
+                recAdapter.addAll(recReviews);
             }
 
             @Override

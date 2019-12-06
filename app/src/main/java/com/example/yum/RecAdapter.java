@@ -35,7 +35,7 @@ public class RecAdapter extends RecyclerView.Adapter<RecAdapter.ViewHolder> {
         ViewHolder viewHolder;
         LayoutInflater inflater = LayoutInflater.from(context);
 
-        View dareView = inflater.inflate(R.layout.item_share_or_dare, parent, false);
+        View dareView = inflater.inflate(R.layout.item_rec_card, parent, false);
         viewHolder = new ViewHolder(dareView);
 
         return viewHolder;
