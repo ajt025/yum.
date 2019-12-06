@@ -246,6 +246,12 @@ public class ProfileFragment extends Fragment {
             tvName.setText(displayName);
         }
 
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String email = user.getEmail();
+
+        tvName.setText(email);
+
+
 
     }
 

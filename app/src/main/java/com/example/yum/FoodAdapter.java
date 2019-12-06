@@ -57,6 +57,7 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> {
 
         // this is where we will load images/text/etc into the review RecyclerView
         holder.textViewName.setText(food1.getName());
+        holder.textViewRestaurant.setText(food1.getRestaurant());
         Picasso.get()
                 .load(food1.getImgPath())
                 .fit()
@@ -69,6 +70,7 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> {
                 Intent intent = new Intent(context, FoodProfileActivity.class);
                 intent.putExtra("image_url", mFoods.get(position).getImgPath());
                 intent.putExtra("food_name", mFoods.get(position).getName());
+                intent.putExtra("food_restaurant",mFoods.get(position).getRestaurant());
 
                 context.startActivity(intent);
 
@@ -88,11 +90,13 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> {
         TextView textViewName;
         ImageView imageView;
         ConstraintLayout parentLayout;
+        TextView textViewRestaurant;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             textViewName = (TextView) itemView.findViewById(R.id.tvName);
+            textViewRestaurant = itemView.findViewById(R.id.tvFoodRestaurant);
             imageView = itemView.findViewById(R.id.ivFoodPic);
             parentLayout = itemView.findViewById(R.id.parentLayout);
 

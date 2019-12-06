@@ -180,7 +180,6 @@ public class CreateAccountActivity extends AppCompatActivity {
 
 
 
-
         // redirects user back to login
         final Intent intent = new Intent(CreateAccountActivity.this,
                 LoginActivity.class);

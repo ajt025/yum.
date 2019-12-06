@@ -145,6 +145,7 @@ public class ExploreFragment extends Fragment {
                                     Food myFood = new Food();
                                     myFood.setName(currFood.getFood());
                                     myFood.setImgPath(currFood.getImgPath());
+                                    myFood.setRestaurant(currFood.getRestaurant());
 
                                     String foodName = myFood.getName().toLowerCase();
                                     foodName += currFood.getRestaurant().toLowerCase();
@@ -197,8 +198,10 @@ public class ExploreFragment extends Fragment {
 
                         total++;
                         Review currFood = snapshot.getValue(Review.class);
+
                         Food myFood = new Food();
                         myFood.setName(currFood.getFood());
+                        myFood.setRestaurant(currFood.getRestaurant());
                         myFood.setImgPath(currFood.getImgPath());
 
                         String foodName = myFood.getName().toLowerCase();
