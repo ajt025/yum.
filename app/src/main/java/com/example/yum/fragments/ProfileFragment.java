@@ -197,9 +197,7 @@ public class ProfileFragment extends Fragment {
                     settings.setVegetarian(true);
                     myDatabase.child(currUserId).setValue(settings);
 
-                }
-
-                else if(!isChecked) {
+                } else if (!isChecked) {
                     settings.setVegetarian(false);
                     myDatabase.child(currUserId).setValue(settings);
                 }
@@ -228,7 +226,7 @@ public class ProfileFragment extends Fragment {
                     settings.setLocation(true);
                     myDatabase.child(currUserId).setValue(settings);
 
-                } else if (!isChecked){
+                } else if (!isChecked) {
                     settings.setLocation(false);
                     myDatabase.child(currUserId).setValue(settings);
 
@@ -241,12 +239,17 @@ public class ProfileFragment extends Fragment {
         tvName = view.findViewById(R.id.tvName);
 
         String displayName = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
+        System.out.println("dpname:" + displayName);
 
         //display name if it's not null
-        if(displayName!=null && !displayName.equals("")){
+        if (displayName != null && !displayName.equals("")) {
             tvName.setText(displayName);
         }
 
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String email = user.getEmail();
+
+        tvName.setText(email);
 
     }
 

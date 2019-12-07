@@ -21,6 +21,8 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static com.google.firebase.auth.FirebaseAuth.getInstance;
+
 /*
 * This activity handles creating a new account and sending
 * that data to Firebase authentication
@@ -61,6 +63,7 @@ public class CreateAccountActivity extends AppCompatActivity {
         setContentView(R.layout.activity_account);
 
         btnCreate = findViewById(R.id.btnCreate);
+
         accFirstName = findViewById(R.id.accFirst);
         accLastName = findViewById(R.id.accLast);
         accEmail = findViewById(R.id.accEmail);
@@ -68,7 +71,7 @@ public class CreateAccountActivity extends AppCompatActivity {
         accPassword = findViewById(R.id.accPassword);
         accConfirmPassword = findViewById(R.id.accConfirmPassword);
 
-        mAuth = FirebaseAuth.getInstance();
+        mAuth = getInstance();
 
         btnCreate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -132,7 +135,7 @@ public class CreateAccountActivity extends AppCompatActivity {
     private void createAccount(String email, String password, String firstName, String lastName) {
 
         Log.d(TAG, "createAccount:" + email);
-
+        final String name = firstName + " " + lastName;
         Toast.makeText(CreateAccountActivity.this, "Creating Account...",
                 Toast.LENGTH_SHORT).show();
 
@@ -143,6 +146,21 @@ public class CreateAccountActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
 
                         if (task.isSuccessful()) {
+
+                            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+                            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                                    .setDisplayName(name).build();
+
+                            user.updateProfile(profileUpdates)
+                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()) {
+                                        Log.d(TAG, "User profile updated.");
+                                    }
+                                }
+                            });
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "createUserWithEmail:success");
                             Toast.makeText(CreateAccountActivity.this, "Account created successfully",
@@ -161,13 +179,6 @@ public class CreateAccountActivity extends AppCompatActivity {
 
 
 
-
-        //FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
-        //UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                //.setDisplayName(firstName + lastName).build();
-
-        //user.updateProfile(profileUpdates);
 
         // redirects user back to login
         final Intent intent = new Intent(CreateAccountActivity.this,
