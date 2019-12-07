@@ -134,9 +134,8 @@ public class ComposeActivity extends AppCompatActivity {
                     review.setReviewTitle(title);
                     review.setReviewBody(description);
                     review.setRating(rating);
-
                     review.setReviewId(id);
-
+                    review.setUserId(currUser);
                     review.setRestaurant(restaurant);
 
                     ArrayList<String> upvote = new ArrayList<String>();

@@ -192,6 +192,11 @@ public class RecommendationFragment extends Fragment implements CardStackListene
                 // Iterate reviews in search of reccs
                 while (iter.hasNext()) {
                     DataSnapshot curr = iter.next();
+                    String reviewOwner = (String) curr.child("userId").getValue();
+
+                    // Skip review if this review was made by the current user
+                    if (reviewOwner.equals(currUser))
+                        continue;
 
                     String foodName = (String) curr.child("food").getValue();
                     String restaurantName = (String) curr.child("restaurant").getValue();
