@@ -1,27 +1,28 @@
 package com.example.yum;
 
 import android.content.Context;
-import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.RatingBar;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.yum.models.Review;
+import com.squareup.picasso.Picasso;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public class RecAdapter extends RecyclerView.Adapter<RecAdapter.ViewHolder> {
 
-    private List<Pair<Review, Integer>> mRecs;
+    private ArrayList<Review> mRecs;
     Context context;
 
-    private final int SHARE = 0, DARE = 1;
-
     // pass in reviews into the constructor for RV
-    public RecAdapter(List<Pair<Review, Integer>> recs) {
+    public RecAdapter(ArrayList<Review> recs) {
         mRecs = recs;
     }
 
@@ -33,18 +34,8 @@ public class RecAdapter extends RecyclerView.Adapter<RecAdapter.ViewHolder> {
         ViewHolder viewHolder;
         LayoutInflater inflater = LayoutInflater.from(context);
 
-        switch (viewType) {
-            case DARE:
-                View dareView = inflater.inflate(R.layout.item_dare, parent, false);
-                viewHolder = new ViewHolder(dareView);
-                break;
-
-            default:
-            case SHARE:
-                View shareView = inflater.inflate(R.layout.item_share, parent, false);
-                viewHolder = new ViewHolder(shareView);
-                break;
-        }
+        View dareView = inflater.inflate(R.layout.item_rec_card, parent, false);
+        viewHolder = new ViewHolder(dareView);
 
         return viewHolder;
     }
@@ -52,12 +43,20 @@ public class RecAdapter extends RecyclerView.Adapter<RecAdapter.ViewHolder> {
     // bind values based on the position of each element
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Pair<Review, Integer> review = mRecs.get(position);
-    }
+        Review review = mRecs.get(position);
 
-    @Override
-    public int getItemViewType(int position) {
-        return mRecs.get(position).second; // Returns either SHARE(0) or DARE(1) card type
+        // TODO this is where you will load images/text/etc into the review RecyclerView
+        Picasso.get()
+                .load(review.getImgPath())
+                .fit()
+                .centerCrop()
+                .into(holder.ivFood);
+
+        holder.tvFoodName.setText(review.getFood());
+        holder.tvRestaurantName.setText(review.getRestaurant());
+        holder.rbRating.setRating((float) review.getRating());
+        holder.tvTitle.setText(review.getReviewTitle());
+        holder.tvDescription.setText(review.getReviewBody());
     }
 
     @Override
@@ -68,9 +67,37 @@ public class RecAdapter extends RecyclerView.Adapter<RecAdapter.ViewHolder> {
     // ViewHolder class, handles connection of views to vars and listener setup
     public class ViewHolder extends RecyclerView.ViewHolder {
 
+        ImageView ivFood;
+        TextView tvFoodName;
+        TextView tvRestaurantName;
+        RatingBar rbRating;
+        TextView tvTitle;
+        TextView tvDescription;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+
+            ivFood = itemView.findViewById(R.id.ivFood);
+            tvFoodName = itemView.findViewById(R.id.tvFoodName);
+            tvRestaurantName = itemView.findViewById(R.id.tvRestaurantName);
+            rbRating = itemView.findViewById(R.id.rbRating);
+            tvDescription = itemView.findViewById(R.id.tvDescription);
+            tvTitle = itemView.findViewById(R.id.tvTitle);
         }
 
+    }
+
+    // RecAdapter - HELPER METHODS //
+
+    // remove all reviews from backing list
+    public void clear() {
+        mRecs.clear();
+        notifyDataSetChanged();
+    }
+
+    // add all reviews from a list to the backing list
+    public void addAll(ArrayList<Review> list) {
+        mRecs.addAll(list);
+        notifyDataSetChanged();
     }
 }

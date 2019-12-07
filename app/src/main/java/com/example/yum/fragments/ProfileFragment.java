@@ -251,8 +251,6 @@ public class ProfileFragment extends Fragment {
 
         tvName.setText(email);
 
-
-
     }
 
     // HELPER METHODS //
