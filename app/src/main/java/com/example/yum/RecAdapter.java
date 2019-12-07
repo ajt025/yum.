@@ -1,6 +1,7 @@
 package com.example.yum;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,7 +46,7 @@ public class RecAdapter extends RecyclerView.Adapter<RecAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Review review = mRecs.get(position);
 
-        // TODO this is where you will load images/text/etc into the review RecyclerView
+        // Load image of food and various review fields
         Picasso.get()
                 .load(review.getImgPath())
                 .fit()
@@ -83,6 +84,20 @@ public class RecAdapter extends RecyclerView.Adapter<RecAdapter.ViewHolder> {
             rbRating = itemView.findViewById(R.id.rbRating);
             tvDescription = itemView.findViewById(R.id.tvDescription);
             tvTitle = itemView.findViewById(R.id.tvTitle);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Review review = mRecs.get(getAdapterPosition());
+
+                    Intent intent = new Intent(context, FoodProfileActivity.class);
+                    intent.putExtra("image_url", review.getImgPath());
+                    intent.putExtra("food_name", review.getFood());
+                    intent.putExtra("food_restaurant", review.getRestaurant());
+
+                    context.startActivity(intent);
+                }
+            });
         }
 
     }
