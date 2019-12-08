@@ -67,8 +67,8 @@
         android:ems="10"
         android:hint="Last Name"
         android:inputType="textWebEmailAddress"
-        app:layout_constraintStart_toStartOf="@+id/accLast"
-        app:layout_constraintTop_toBottomOf="@+id/accLast" />
+        app:layout_constraintStart_toStartOf="@+id/accFirst"
+        app:layout_constraintTop_toBottomOf="@+id/accFirst" />
 
     <EditText
         android:id="@+id/accPassword"
@@ -139,7 +139,7 @@
         android:background="?android:attr/listDivider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/accFirst" />
+        app:layout_constraintTop_toBottomOf="@+id/accLast" />
 
     <View
         android:id="@+id/divider2"
