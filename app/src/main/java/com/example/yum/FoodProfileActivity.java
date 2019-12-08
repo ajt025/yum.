@@ -158,7 +158,6 @@ public class FoodProfileActivity extends AppCompatActivity {
         });
     }
 
-
     private void getIncomingIntent() {
         if (getIntent().hasExtra("image_url") && getIntent().hasExtra("food_name")) {
             imageURL = getIntent().getStringExtra("image_url");

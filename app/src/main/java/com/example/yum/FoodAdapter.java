@@ -100,15 +100,6 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> {
             imageView = itemView.findViewById(R.id.ivFoodPic);
             parentLayout = itemView.findViewById(R.id.parentLayout);
 
-            /*itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    final Intent intent = new Intent(context, FoodProfileActivity.class);
-
-                    intent.putExtra("food", Parcels.wrap(mFoods.get(getAdapterPosition())));
-                    context.startActivity(intent);
-                }
-            });*/
         }
 
     }
