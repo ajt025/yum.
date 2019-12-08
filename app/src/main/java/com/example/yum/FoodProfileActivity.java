@@ -11,12 +11,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
-import android.util.Log;
 
-import com.example.yum.models.Food;
-import com.example.yum.models.Restaurant;
 import com.example.yum.models.Review;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -24,7 +20,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.database.Query;
 
 import com.squareup.picasso.Picasso;
 
@@ -41,7 +36,6 @@ public class FoodProfileActivity extends AppCompatActivity {
 
     // Fields
     RecyclerView rvReviews;
-    ArrayList<Restaurant> restaurants;
     ArrayList<Review> reviews;
     protected DatabaseReference databaseRef;
     private TextView tvFood;
@@ -104,8 +98,6 @@ public class FoodProfileActivity extends AppCompatActivity {
         });
 
         reviews = new ArrayList<>();
-        restaurants = new ArrayList<>();
-
 
         rvReviews = findViewById(R.id.rvReviews);
         reviewAdapter = new ReviewAdapter(reviews);
