@@ -138,8 +138,6 @@ public class ProfileFragment extends Fragment {
         // Get database reference to send
         myDatabase = FirebaseDatabase.getInstance().getReference().child(dataPath);
 
-        //myDatabase = FirebaseDatabase.getInstance().getReference().child("User Info");
-
         final String currUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         DatabaseReference childImg = myDatabase.child(currUser).child("profileImgPath");
@@ -160,7 +158,6 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        settings = new Settings();
         myDatabase = FirebaseDatabase.getInstance().getReference().child("User Settings");
         settings = new Settings();
 
@@ -190,16 +187,15 @@ public class ProfileFragment extends Fragment {
         });
 
         // Update database to reflect change of vegetarian setting
-        final String currUserId = currUser;
         switchVegetarian.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     settings.setVegetarian(true);
-                    myDatabase.child(currUserId).setValue(settings);
+                    myDatabase.child(currUser).setValue(settings);
 
                 } else if (!isChecked) {
                     settings.setVegetarian(false);
-                    myDatabase.child(currUserId).setValue(settings);
+                    myDatabase.child(currUser).setValue(settings);
                 }
             }
         });
@@ -209,11 +205,11 @@ public class ProfileFragment extends Fragment {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     settings.setVegan(true);
-                    myDatabase.child(currUserId).setValue(settings);
+                    myDatabase.child(currUser).setValue(settings);
 
                 } else if (!isChecked) {
                     settings.setVegan(false);
-                    myDatabase.child(currUserId).setValue(settings);
+                    myDatabase.child(currUser).setValue(settings);
 
                 }
             }
@@ -224,11 +220,11 @@ public class ProfileFragment extends Fragment {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     settings.setLocation(true);
-                    myDatabase.child(currUserId).setValue(settings);
+                    myDatabase.child(currUser).setValue(settings);
 
                 } else if (!isChecked) {
                     settings.setLocation(false);
-                    myDatabase.child(currUserId).setValue(settings);
+                    myDatabase.child(currUser).setValue(settings);
 
                 }
             }
@@ -239,7 +235,6 @@ public class ProfileFragment extends Fragment {
         tvName = view.findViewById(R.id.tvName);
 
         String displayName = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
-        System.out.println("dpname:" + displayName);
 
         //display name if it's not null
         if (displayName != null && !displayName.equals("")) {
