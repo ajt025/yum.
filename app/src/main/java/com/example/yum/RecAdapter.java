@@ -17,6 +17,11 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
+/*
+* This adapter is used to display food items
+* in the recommendation page. This allows for food
+* name, restaurant name and rating to be displayed.
+* */
 public class RecAdapter extends RecyclerView.Adapter<RecAdapter.ViewHolder> {
 
     private ArrayList<Review> mRecs;
@@ -53,6 +58,7 @@ public class RecAdapter extends RecyclerView.Adapter<RecAdapter.ViewHolder> {
                 .centerCrop()
                 .into(holder.ivFood);
 
+        //set values
         holder.tvFoodName.setText(review.getFood());
         holder.tvRestaurantName.setText(review.getRestaurant());
         holder.rbRating.setRating((float) review.getRating());
@@ -90,6 +96,7 @@ public class RecAdapter extends RecyclerView.Adapter<RecAdapter.ViewHolder> {
                 public void onClick(View view) {
                     Review review = mRecs.get(getAdapterPosition());
 
+                    // send image url, name, and restaurant name info
                     Intent intent = new Intent(context, FoodProfileActivity.class);
                     intent.putExtra("image_url", review.getImgPath());
                     intent.putExtra("food_name", review.getFood());
