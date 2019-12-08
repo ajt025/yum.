@@ -41,7 +41,7 @@ public class HomeActivity extends AppCompatActivity {
                     case R.id.action_recommendations:
                         fragment = new RecommendationFragment();
                         break;
-                    case R.id.action_capture:
+                    case R.id.action_explore:
                         fragment = new ExploreFragment();
                         break;
                     case R.id.action_profile:
