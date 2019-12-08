@@ -136,8 +136,6 @@ public class CreateAccountActivity extends AppCompatActivity {
 
         Log.d(TAG, "createAccount:" + email);
         final String name = firstName + " " + lastName;
-        Toast.makeText(CreateAccountActivity.this, "Creating Account...",
-                Toast.LENGTH_SHORT).show();
 
         // creates user email and password onto firebase
         mAuth.createUserWithEmailAndPassword(email, password)
