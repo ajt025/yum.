@@ -10,13 +10,13 @@ Currently, our app allows users to create an account, login, and write reviews f
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
 **Our Team**
-Vincent Xu
-Anthony Tran
-Bryan Espinoza
-Charles Jacob Elliot
-Chris Jiang
-Harrison Ku
-Jonathan Leigh
-Phing Taing
-Reena Dacanay
-Samuel Kee
+- Vincent Xu
+- Anthony Tran
+- Bryan Espinoza
+- Charles Jacob Elliot
+- Chris Jiang
+- Harrison Ku
+- Jonathan Leigh
+- Phing Taing
+- Reena Dacanay
+- Samuel Kee
